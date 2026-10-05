@@ -179,15 +179,6 @@ export default function HomePage() {
               </div>
             </Link>
           </div>
-
-          {/* Platform Support Badges */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-extrabold text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-            <span>● {t.hero.platforms.steam}</span>
-            <span>▣ {t.hero.platforms.windows}</span>
-            <span>● {t.hero.platforms.macos}</span>
-            <span>● {t.hero.platforms.ios}</span>
-            <span>● {t.hero.platforms.android}</span>
-          </div>
         </div>
 
         {/* WATCH TRAILER FLOATING CARD (BOTTOM RIGHT) */}

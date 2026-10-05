@@ -35,7 +35,7 @@
 
   --font-sans: var(--font-noto-thai), sans-serif;
   --font-mono: var(--font-roboto-mono), monospace;
-  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", var(--font-noto-thai), sans-serif;
 
   /* Breakpoint ตามอุปกรณ์ — mobile = ค่าเริ่มต้น ไม่ต้องมี prefix */
   --breakpoint-tablet: 768px; /* iPad แนวตั้งขึ้นไป */
@@ -269,7 +269,10 @@ body {
   }
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
 .font-display { font-family: var(--font-display); }
 .shadow-game { box-shadow: 0 14px 38px color-mix(in srgb, var(--game-deep) 72%, transparent); }
 
@@ -1228,7 +1231,6 @@ html { scroll-behavior: smooth; }
 /* Fallback for browsers that do not composite backdrop-filter across fixed layers. */
 html[data-mobile-menu-open="true"] main > :not(header) {
   filter: blur(8px);
-  transition: filter 220ms ease;
 }
 
 .mobile-menu-panel {

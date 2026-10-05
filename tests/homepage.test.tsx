@@ -34,6 +34,17 @@ test("homepage exposes the primary game actions and content sections", () => {
   assert.match(html, /href="\/download"/);
 });
 
+test("Thai font is applied globally and remains the display-font fallback", () => {
+  const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(layout, /<body className="[^"]*\bfont-sans\b[^"]*"/);
+  assert.match(
+    css,
+    /--font-display:\s*Impact,\s*Haettenschweiler,\s*"Arial Narrow Bold",\s*var\(--font-noto-thai\),\s*sans-serif;/,
+  );
+});
+
 test("mobile menu does not add an opaque white highlight layer", () => {
   const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 
@@ -54,6 +65,16 @@ test("mobile menu backdrop provides a cross-browser translucent blur", () => {
   assert.match(css, /-webkit-backdrop-filter:\s*blur\(24px\) saturate\(1\.2\)/);
   assert.match(css, /html\[data-mobile-menu-open="true"\]\s+main > :not\(header\)/);
   assert.match(css, /filter:\s*blur\(8px\)/);
+  assert.doesNotMatch(
+    css,
+    /html\[data-mobile-menu-open="true"\]\s+main > :not\(header\)\s*\{[^}]*transition:\s*filter/,
+  );
+});
+
+test("opening the mobile menu does not shift the fixed navbar", () => {
+  const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(css, /html\s*\{[^}]*scrollbar-gutter:\s*stable/);
 });
 
 test("mobile menu locks both document scroll containers while open", () => {
