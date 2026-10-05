@@ -22,9 +22,20 @@
   --color-brand-cyan: var(--brand-cyan);
   --color-brand-blue: var(--brand-blue);
   --color-brand-violet: var(--brand-violet);
+  --color-game: var(--game);
+  --color-game-deep: var(--game-deep);
+  --color-game-raised: var(--game-raised);
+  --color-game-surface: var(--game-surface);
+  --color-game-foreground: var(--game-foreground);
+  --color-game-muted: var(--game-muted);
+  --color-game-border: var(--game-border);
+  --color-highlight: var(--highlight);
+  --color-info: var(--info);
+  --color-ink: var(--ink);
 
   --font-sans: var(--font-noto-thai), sans-serif;
   --font-mono: var(--font-roboto-mono), monospace;
+  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 
   /* Breakpoint ตามอุปกรณ์ — mobile = ค่าเริ่มต้น ไม่ต้องมี prefix */
   --breakpoint-tablet: 768px; /* iPad แนวตั้งขึ้นไป */
@@ -74,6 +85,16 @@
   --brand-cyan: #00a6c8;
   --brand-blue: #2f75db;
   --brand-violet: #6b2ed9;
+  --game: #07152f;
+  --game-deep: #030b1d;
+  --game-raised: #0a2149;
+  --game-surface: #133567;
+  --game-foreground: #f7fbff;
+  --game-muted: #b8c7e0;
+  --game-border: #2a5792;
+  --highlight: #ffd51c;
+  --info: #10aef2;
+  --ink: #07101f;
 }
 
 * {
@@ -165,4 +186,174 @@ body {
   50% {
     opacity: 1;
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #07101f;
+    --surface: #0c1a2f;
+    --surface-raised: #13243e;
+    --foreground: #f7fbff;
+    --muted: #aebbd0;
+    --border: #294260;
+    --primary: #15b9f5;
+    --primary-hover: #50caff;
+    --on-primary: #07101f;
+  }
+}
+
+html { scroll-behavior: smooth; }
+.font-display { font-family: var(--font-display); }
+.shadow-game { box-shadow: 0 14px 38px color-mix(in srgb, var(--game-deep) 72%, transparent); }
+
+.hero-vignette {
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--game-deep) 28%, transparent) 0%, transparent 30%, transparent 62%, color-mix(in srgb, var(--game-deep) 84%, transparent) 100%),
+    linear-gradient(to right, color-mix(in srgb, var(--game-deep) 18%, transparent), transparent 20%, transparent 80%, color-mix(in srgb, var(--game-deep) 18%, transparent));
+}
+
+.nav-link {
+  position: relative;
+  padding-block: 1.55rem;
+  color: var(--game-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+.nav-link:hover, .nav-link:focus-visible, .nav-link-active { color: var(--game-foreground); }
+.nav-link-active::after {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0.85rem;
+  height: 0.18rem;
+  background: var(--info);
+  box-shadow: 0 0 14px var(--info);
+  content: "";
+}
+
+.icon-button {
+  display: inline-flex;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.6rem;
+  color: var(--game-foreground);
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease;
+}
+.icon-button:hover, .icon-button:focus-visible { background: var(--game-surface); color: var(--highlight); }
+
+.game-button {
+  display: inline-flex;
+  min-height: 3.35rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--highlight) 70%, var(--game-foreground));
+  border-radius: 0.55rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--highlight) 88%, var(--game-foreground)), var(--highlight));
+  box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--highlight) 65%, var(--ink)), 0 8px 24px color-mix(in srgb, var(--highlight) 28%, transparent);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transform: skew(-5deg);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+.game-button > * { transform: skew(5deg); }
+.game-button:hover, .game-button:focus-visible { filter: brightness(1.08); transform: skew(-5deg) translateY(-2px); }
+.game-button-alt {
+  border-color: color-mix(in srgb, var(--game-foreground) 70%, var(--brand-violet));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--brand-violet) 68%, var(--game-foreground)), var(--brand-violet));
+  box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--brand-violet) 62%, var(--game-deep)), 0 8px 24px color-mix(in srgb, var(--brand-violet) 40%, transparent);
+  color: var(--game-foreground);
+}
+.game-button-small { min-height: 2.75rem; padding-inline: 1.25rem; font-size: 1rem; }
+
+.game-grid-bg {
+  background:
+    radial-gradient(circle at 50% 15%, color-mix(in srgb, var(--info) 16%, transparent), transparent 28%),
+    linear-gradient(color-mix(in srgb, var(--game-foreground) 2%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--game-foreground) 2%, transparent) 1px, transparent 1px),
+    var(--game);
+  background-size: auto, 46px 46px, 46px 46px, auto;
+}
+.event-overlay { background: linear-gradient(to top, color-mix(in srgb, var(--game-deep) 95%, transparent), color-mix(in srgb, var(--game-deep) 8%, transparent) 65%); }
+
+.badge {
+  display: inline-flex;
+  border-radius: 0.28rem;
+  background: var(--info);
+  padding: 0.22rem 0.62rem;
+  color: var(--ink);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.badge-pink { background: var(--brand-violet); color: var(--game-foreground); }
+.badge-orange { background: var(--highlight); }
+.badge-blue { background: var(--info); }
+.badge-green { background: var(--brand-green); color: var(--game-foreground); }
+
+.event-card {
+  display: flex;
+  min-height: 198px;
+  flex-direction: column;
+  gap: 0.7rem;
+  overflow: hidden;
+  border: 1px solid var(--game-border);
+  border-radius: 0.75rem;
+  padding: 1.2rem;
+  box-shadow: inset 0 0 50px color-mix(in srgb, var(--game-deep) 25%, transparent);
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+.event-card:hover { transform: translateY(-3px); border-color: var(--game-foreground); }
+.event-card h3 { font-family: var(--font-display); font-size: 1.75rem; font-style: italic; line-height: 1; text-transform: uppercase; }
+.event-card p:not(.badge) { margin-top: 0.35rem; color: var(--game-muted); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; }
+.event-card-orange { background: linear-gradient(135deg, color-mix(in srgb, var(--danger) 82%, var(--game)), var(--game-raised)); }
+.event-card-purple { background: linear-gradient(135deg, var(--brand-violet), var(--game-raised)); }
+.event-card-blue { background: linear-gradient(135deg, var(--brand-blue), var(--game)); }
+.event-card-green { background: linear-gradient(135deg, var(--brand-green), var(--game-raised)); }
+.event-card small { display: block; color: var(--game-muted); font-family: var(--font-sans); font-size: 0.5rem; font-style: normal; text-transform: uppercase; }
+
+.reward-dot, .ability {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--game-foreground) 38%, transparent);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--game-deep) 55%, transparent);
+  color: var(--highlight);
+}
+
+.character-card {
+  position: relative;
+  min-height: 470px;
+  overflow: hidden;
+  border: 2px solid currentColor;
+  border-radius: 0.7rem;
+  box-shadow: 0 18px 36px color-mix(in srgb, var(--game-deep) 65%, transparent);
+}
+.character-card-luna { color: color-mix(in srgb, var(--brand-violet) 80%, var(--game-foreground)); }
+.character-card-ryu { color: var(--info); }
+.character-card-kai { color: color-mix(in srgb, var(--highlight) 70%, var(--danger)); }
+.character-shade { background: linear-gradient(90deg, color-mix(in srgb, var(--game-deep) 94%, transparent) 0%, color-mix(in srgb, var(--game-deep) 60%, transparent) 42%, transparent 75%), linear-gradient(to top, color-mix(in srgb, var(--game-deep) 88%, transparent), transparent 62%); }
+.character-card h3, .character-card p, .character-card span { text-shadow: 0 2px 9px var(--game-deep); }
+.character-card .badge { color: var(--game-foreground); text-shadow: none; }
+.character-card .ability { color: currentColor; }
+.footer-scene-shade { background: linear-gradient(to bottom, color-mix(in srgb, var(--game) 10%, transparent), color-mix(in srgb, var(--game-deep) 32%, transparent)); }
+
+:focus-visible { outline: 3px solid var(--highlight); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }

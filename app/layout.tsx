@@ -16,19 +16,15 @@ const notoSansThai = Noto_Sans_Thai({
 
 export const metadata: Metadata = {
   title: {
-    default: "LinkFlow",
-    template: "%s · LinkFlow",
+    default: "Avatar Star",
+    template: "%s | Avatar Star",
   },
-  description: "รวมทุกลิงก์และตัวตนของคุณไว้ในหน้าเดียว",
+  description: "Fast-paced shooting action in a colorful world of floating islands.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="th" className={`${notoSansThai.variable} ${robotoMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${notoSansThai.variable} ${robotoMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background font-medium text-foreground leading-relaxed">{children}</body>
     </html>
   );
