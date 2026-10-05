@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-on-primary: var(--on-primary);
+  --color-ring: var(--primary);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-green: var(--brand-green);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-violet: var(--brand-violet);
+
+  --font-sans: var(--font-noto-thai), sans-serif;
+  --font-mono: var(--font-roboto-mono), monospace;
+
+  /* Breakpoint ตามอุปกรณ์ — mobile = ค่าเริ่มต้น ไม่ต้องมี prefix */
+  --breakpoint-tablet: 768px; /* iPad แนวตั้งขึ้นไป */
+  --breakpoint-desktop: 1024px; /* จอคอมขึ้นไป */
+}
+
+/* ระยะขอบ responsive กลาง — แก้เลขที่นี่ที่เดียว มีผลทุกหน้า
+   mobile = ค่าแรก, tablet/desktop อ้าง breakpoint จาก @theme ด้านบน */
+@utility page-inset {
+  padding-inline: 1rem;
+  @media (width >= theme(--breakpoint-tablet)) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= theme(--breakpoint-desktop)) {
+    padding-inline: 2rem;
+  }
+}
+
+/* ระยะขอบ navbar ตอนกางเต็มจอ */
+@utility nav-inset {
+  padding-inline: 1.5rem;
+  @media (width >= theme(--breakpoint-tablet)) {
+    padding-inline: 2.5rem;
+  }
+  @media (width >= theme(--breakpoint-desktop)) {
+    padding-inline: 4rem;
+  }
+}
+
+:root {
+  color-scheme: light;
+  --background: #fbfbfa;
+  --surface: #eaedec;
+  --surface-raised: #ffffff;
+  --foreground: #151819;
+  --muted: #667075;
+  --border: #d9dedd;
+  --primary: #303c40;
+  --primary-hover: #1c2427;
+  --secondary: #101719;
+  --accent: #5b747a;
+  --on-primary: #ffffff;
+  --success: #16a34a;
+  --danger: #e5484d;
+  --brand-gold: #f2b900;
+  --brand-green: #58a82b;
+  --brand-cyan: #00a6c8;
+  --brand-blue: #2f75db;
+  --brand-violet: #6b2ed9;
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.brand-gradient {
+  background-image: linear-gradient(
+    90deg,
+    var(--brand-gold),
+    var(--brand-green),
+    var(--brand-cyan),
+    var(--brand-blue),
+    var(--brand-violet)
+  );
+}
+
+.brand-gradient-text {
+  background-image: linear-gradient(90deg, var(--primary), var(--accent));
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-aura {
+  background:
+    radial-gradient(
+      circle at 42% 12%,
+      color-mix(in srgb, var(--primary) 10%, transparent),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 62% 18%,
+      color-mix(in srgb, var(--accent) 8%, transparent),
+      transparent 30%
+    );
+}
+
+.spectrum-shadow {
+  box-shadow:
+    -10px 12px 22px -18px var(--brand-gold),
+    0 14px 22px -18px var(--brand-cyan),
+    10px 12px 22px -18px var(--brand-violet);
+}
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--border) 55%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--border) 55%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 28px 28px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .signal-pulse {
+    animation: signal-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@media (forced-colors: active) {
+  .brand-gradient-text {
+    background: none;
+    color: CanvasText;
+  }
+}
+
+@keyframes signal-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
