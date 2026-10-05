@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai, Roboto_Mono } from "next/font/google";
+import { LanguageProvider } from "@/lib/language-context";
 import "./globals.css";
 
 const robotoMono = Roboto_Mono({
@@ -25,7 +26,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${notoSansThai.variable} ${robotoMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-background font-medium text-foreground leading-relaxed">{children}</body>
+      <body className="flex min-h-full flex-col bg-background font-medium text-foreground leading-relaxed">
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }
