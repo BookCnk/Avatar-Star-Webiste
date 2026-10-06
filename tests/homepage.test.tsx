@@ -12,18 +12,18 @@ test("homepage exposes the primary game actions and content sections", () => {
     </LanguageProvider>
   );
 
-  assert.match(html, /Register/i);
-  assert.match(html, /Download/i);
-  assert.match(html, /Top-?up/i);
-  assert.match(html, /Events[\s\S]*Activities/i);
-  assert.match(html, /Characters/i);
+  assert.match(html, /(Register|ลงทะเบียน|สมัคร)/i);
+  assert.match(html, /(Download|ดาวน์โหลด)/i);
+  assert.match(html, /(Top-?up|เติมเงิน)/i);
+  assert.match(html, /(Events[\s\S]*Activities|กิจกรรม)/i);
+  assert.match(html, /(Characters|ตัวละคร)/i);
   assert.match(html, /aria-label="Primary Game Navigation"/);
   assert.match(html, /class="mobile-menu-backdrop"/);
   assert.match(html, /class="mobile-menu-panel"/);
   assert.match(html, /class="mobile-menu-close"/);
   assert.match(html, /data-state="closed"/);
-  assert.match(html, /Download/i);
-  assert.match(html, /Language/i);
+  assert.match(html, /(Download|ดาวน์โหลด)/i);
+  assert.match(html, /(Language|ภาษา)/i);
 
   const hashDownloadLinks = html.match(/href="#download"/g) ?? [];
   assert.equal(

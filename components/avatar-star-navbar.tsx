@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Search,
   Globe2,
   ChevronDown,
   ChevronRight,
@@ -16,7 +15,11 @@ import {
   Flame,
   Swords,
   Layers,
-  Sparkles,
+  Home,
+  Users,
+  Newspaper,
+  MessageSquare,
+  Headphones,
 } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 
@@ -35,13 +38,10 @@ export function AvatarStarNavbar({
 
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isGameMenuOpen, setIsGameMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const langRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<HTMLDivElement>(null);
-  const searchRef = useRef<HTMLDivElement>(null);
 
   const handleNavClick = (key: string) => {
     setInternalActiveNav(key);
@@ -59,9 +59,6 @@ export function AvatarStarNavbar({
       }
       if (gameRef.current && !gameRef.current.contains(target)) {
         setIsGameMenuOpen(false);
-      }
-      if (searchRef.current && !searchRef.current.contains(target)) {
-        setIsSearchOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -90,14 +87,14 @@ export function AvatarStarNavbar({
   }, [isMobileMenuOpen]);
 
   const navItems = [
-    { key: "home", label: t.nav.home, href: "/#game" },
-    { key: "game", label: t.nav.game, href: "/#game", hasDropdown: true },
-    { key: "characters", label: t.nav.characters, href: "/#characters" },
-    { key: "events", label: t.nav.events, href: "/#events" },
-    { key: "news", label: t.nav.news, href: "/#news" },
-    { key: "community", label: t.nav.community, href: "/#community" },
-    { key: "download", label: t.nav.downloadNav, href: "/download", isDownloadPill: true },
-    { key: "support", label: t.nav.support, href: "/#support" },
+    { key: "home", label: t.nav.home, href: "/#game", icon: Home },
+    { key: "game", label: t.nav.game, href: "/#game", hasDropdown: true, icon: Gamepad2 },
+    { key: "characters", label: t.nav.characters, href: "/#characters", icon: Users },
+    { key: "events", label: t.nav.events, href: "/#events", icon: Flame },
+    { key: "news", label: t.nav.news, href: "/#news", icon: Newspaper },
+    { key: "community", label: t.nav.community, href: "/#community", icon: MessageSquare },
+    { key: "download", label: t.nav.downloadNav, href: "/download", isDownloadPill: true, icon: Download },
+    { key: "support", label: t.nav.support, href: "/#support", icon: Headphones },
   ];
 
   return (
@@ -128,6 +125,7 @@ export function AvatarStarNavbar({
           >
             {navItems.map((item) => {
               const isActive = activeNav === item.key;
+              const Icon = item.icon;
 
               // Download button styled as glowing golden pill
               if (item.isDownloadPill) {
@@ -136,8 +134,9 @@ export function AvatarStarNavbar({
                     key={item.key}
                     href={item.href}
                     onClick={() => handleNavClick(item.key)}
-                    className="as-nav-download-badge group relative mx-1"
+                    className="as-nav-download-badge group relative mx-1 flex items-center gap-1.5"
                   >
+                    <Download className="size-3.5 stroke-[2.5]" />
                     <span>{item.label}</span>
                     {/* Sparkle Glint */}
                     <span className="absolute -bottom-1 -right-1 text-white text-[11px] drop-shadow-[0_0_4px_rgba(255,255,255,0.95)] animate-sparkle-glint pointer-events-none">
@@ -154,8 +153,9 @@ export function AvatarStarNavbar({
                     <button
                       type="button"
                       onClick={() => setIsGameMenuOpen(!isGameMenuOpen)}
-                      className={`as-nav-item ${isActive ? "active" : ""}`}
+                      className={`as-nav-item flex items-center gap-1.5 ${isActive ? "active" : ""}`}
                     >
+                      <Icon className="size-3.5 stroke-[2.2] text-[#70dbff]/85 transition-transform group-hover:text-white" />
                       <span>{item.label}</span>
                       <ChevronDown
                         className={`size-3.5 stroke-[2.5] transition-transform duration-200 ${
@@ -203,95 +203,40 @@ export function AvatarStarNavbar({
                   key={item.key}
                   href={item.href}
                   onClick={() => handleNavClick(item.key)}
-                  className={`as-nav-item ${isActive ? "active" : ""}`}
+                  className={`as-nav-item flex items-center gap-1.5 ${isActive ? "active" : ""}`}
                 >
-                  {item.label}
+                  <Icon className="size-3.5 stroke-[2.2] text-[#70dbff]/85 transition-transform group-hover:text-white" />
+                  <span>{item.label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* 3. Right Controls: Search (Desktop only), Language, "สมัคร >", and Hamburger Button */}
+          {/* 3. Right Controls: Language, "สมัคร >", and Hamburger Button */}
           <div className="flex items-center gap-1 sm:gap-2 pr-0.5 sm:pr-1 shrink-0">
-            {/* Search Button (Hidden on Mobile, Visible on Desktop) */}
-            <div className="relative hidden md:block" ref={searchRef}>
-              <button
-                type="button"
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-                aria-label="Search site"
-                className="as-nav-icon-btn"
-              >
-                <Search className="size-4 sm:size-4.5 stroke-[2.4]" />
-              </button>
-
-              {isSearchOpen && (
-                <div className="absolute right-0 top-full mt-2.5 w-72 sm:w-80 rounded-2xl border border-white/20 bg-[#00257e]/95 p-3 shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
-                  <div className="flex items-center gap-2 rounded-xl bg-black/30 px-3 py-2 border border-white/15">
-                    <Search className="size-4 text-white/70" />
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder={t.nav.searchPlaceholder}
-                      className="w-full bg-transparent text-xs text-white placeholder-white/50 focus:outline-none"
-                      autoFocus
-                    />
-                    {searchQuery && (
-                      <button
-                        type="button"
-                        onClick={() => setSearchQuery("")}
-                        className="text-white/60 hover:text-white"
-                      >
-                        <X className="size-3.5" />
-                      </button>
-                    )}
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-1.5 px-1">
-                    <span className="text-[10px] text-white/60">ยอดนิยม:</span>
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery("Luna")}
-                      className="text-[10px] bg-white/10 hover:bg-white/20 text-white rounded-full px-2 py-0.5"
-                    >
-                      Luna
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery("Ryu")}
-                      className="text-[10px] bg-white/10 hover:bg-white/20 text-white rounded-full px-2 py-0.5"
-                    >
-                      Ryu
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery("Starfront")}
-                      className="text-[10px] bg-white/10 hover:bg-white/20 text-white rounded-full px-2 py-0.5"
-                    >
-                      Starfront
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Language Switcher Dropdown (Globe + Chevron) */}
+            {/* Language Switcher Dropdown (Globe + Current Lang + Chevron) */}
             <div className="relative" ref={langRef}>
               <button
                 type="button"
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 aria-label="Select Language"
-                className="as-nav-icon-btn flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2"
+                aria-expanded={isLangOpen}
+                aria-haspopup="true"
+                className="as-nav-lang-btn"
               >
-                <Globe2 className="size-4 sm:size-4.5 stroke-[2.2]" />
+                <Globe2 className="size-3.5 sm:size-4 text-[#70dbff]" />
+                <span className="font-black text-[11px] sm:text-xs tracking-wider">
+                  {lang === "th" ? "TH" : "EN"}
+                </span>
                 <ChevronDown
-                  className={`size-3 stroke-[2.5] transition-transform duration-200 ${
+                  className={`size-3 stroke-[2.5] text-white/80 transition-transform duration-200 ${
                     isLangOpen ? "rotate-180" : ""
                   }`}
                 />
               </button>
 
               {isLangOpen && (
-                <div className="absolute right-0 top-full mt-2.5 w-44 rounded-2xl border border-white/20 bg-[#002787]/95 p-1.5 shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute right-0 top-full mt-2.5 w-44 rounded-2xl border border-white/20 bg-[#002787]/95 p-1.5 shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150 z-50">
                   <button
                     type="button"
                     onClick={() => {
@@ -305,9 +250,9 @@ export function AvatarStarNavbar({
                     }`}
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-base">🇹🇭</span> ภาษาไทย
+                      <span className="text-base">🇹🇭</span> ภาษาไทย (TH)
                     </span>
-                    {lang === "th" && <Check className="size-3.5 stroke-[3]" />}
+                    {lang === "th" && <Check className="size-3.5 stroke-[3] text-[#ffd51c]" />}
                   </button>
 
                   <button
@@ -323,9 +268,9 @@ export function AvatarStarNavbar({
                     }`}
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-base">🇺🇸</span> English
+                      <span className="text-base">🇺🇸</span> English (EN)
                     </span>
-                    {lang === "en" && <Check className="size-3.5 stroke-[3]" />}
+                    {lang === "en" && <Check className="size-3.5 stroke-[3] text-[#ffd51c]" />}
                   </button>
                 </div>
               )}
@@ -397,15 +342,16 @@ export function AvatarStarNavbar({
               <div className="flex flex-col gap-1">
                 {navItems.map((item) => {
                   const isActive = activeNav === item.key;
+                  const Icon = item.icon;
                   if (item.isDownloadPill) {
                     return (
                       <Link
                         key={item.key}
                         href={item.href}
                         onClick={() => handleNavClick(item.key)}
-                        className="as-nav-download-badge mobile-menu-download mt-2.5 py-3 text-center text-sm w-full"
+                        className="as-nav-download-badge mobile-menu-download mt-2.5 py-3 text-center text-sm w-full flex items-center justify-center gap-2"
                       >
-                        <Download className="size-4 inline mr-1.5" />
+                        <Download className="size-4 stroke-[2.5]" />
                         <span>{item.label}</span>
                       </Link>
                     );
@@ -419,7 +365,10 @@ export function AvatarStarNavbar({
                         isActive ? "mobile-menu-item-active" : ""
                       }`}
                     >
-                      <span>{item.label}</span>
+                      <div className="flex items-center gap-2.5">
+                        <Icon className="size-4 text-[#70dbff]" />
+                        <span>{item.label}</span>
+                      </div>
                       {item.hasDropdown && <ChevronRight className="size-4 opacity-70" />}
                     </Link>
                   );
@@ -427,14 +376,32 @@ export function AvatarStarNavbar({
 
                 <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between px-2">
                   <span className="text-xs font-bold text-white/80">เลือกภาษา / Language:</span>
-                  <button
-                    type="button"
-                    onClick={() => setLang(lang === "en" ? "th" : "en")}
-                    className="rounded-lg bg-white/20 px-3 py-1.5 text-xs font-black text-white hover:bg-white/30 flex items-center gap-1.5 transition"
-                  >
-                    <Globe2 className="size-3.5 text-[#70dbff]" />
-                    <span>{lang === "en" ? "🇹🇭 TH" : "🇺🇸 EN"}</span>
-                  </button>
+                  <div className="flex items-center gap-1 bg-black/25 p-1 rounded-xl border border-white/15">
+                    <button
+                      type="button"
+                      onClick={() => setLang("th")}
+                      className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black transition ${
+                        lang === "th"
+                          ? "bg-white/25 text-[#ffd51c] shadow"
+                          : "text-white/60 hover:text-white"
+                      }`}
+                    >
+                      <span>🇹🇭</span>
+                      <span>TH</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLang("en")}
+                      className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black transition ${
+                        lang === "en"
+                          ? "bg-white/25 text-[#ffd51c] shadow"
+                          : "text-white/60 hover:text-white"
+                      }`}
+                    >
+                      <span>🇺🇸</span>
+                      <span>EN</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

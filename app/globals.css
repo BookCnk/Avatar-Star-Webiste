@@ -569,6 +569,33 @@ html {
   transform: scale(1.1);
 }
 
+.as-nav-lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transition: all 160ms ease;
+  user-select: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.as-nav-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: scale(1.05);
+}
+
+.as-nav-lang-btn:active {
+  transform: scale(0.96);
+}
+
 @keyframes sparkleGlint {
   0%, 100% { opacity: 0.7; transform: scale(0.85) rotate(0deg); }
   50% { opacity: 1; transform: scale(1.25) rotate(45deg); }
@@ -732,76 +759,61 @@ html {
   transform: translateY(2px) scale(0.97);
 }
 
-/* 1. GOLD / SUN-ORANGE (REGISTER) WITH PULSING SHADOW ANIMATION */
+/* 1. GOLD / SUN-ORANGE (REGISTER) */
 .as-hero-btn-gold,
 .pill-btn-orange {
   background: linear-gradient(180deg, var(--as-btn-gold-from) 0%, var(--as-btn-gold-via) 48%, var(--as-btn-gold-to) 100%);
   color: var(--as-btn-gold-ink);
-  animation: heroBtnGlowGold 3s ease-in-out infinite alternate;
+  box-shadow:
+    0 8px 22px var(--as-btn-gold-shadow),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -4px 0 var(--as-btn-gold-bevel);
 }
 
-@keyframes heroBtnGlowGold {
-  0% {
-    box-shadow:
-      0 8px 22px var(--as-btn-gold-shadow),
-      inset 0 1.5px 1px rgba(255, 255, 255, 0.8),
-      inset 0 -4px 0 var(--as-btn-gold-bevel);
-  }
-  100% {
-    box-shadow:
-      0 12px 32px rgba(255, 165, 0, 0.9),
-      0 0 25px rgba(255, 210, 0, 0.65),
-      inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
-      inset 0 -4px 0 var(--as-btn-gold-bevel);
-  }
+.as-hero-btn-gold:hover,
+.pill-btn-orange:hover {
+  box-shadow:
+    0 10px 26px var(--as-btn-gold-shadow),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -4px 0 var(--as-btn-gold-bevel);
 }
 
-/* 2. ELECTRIC CYAN-BLUE (DOWNLOAD) WITH PULSING SHADOW ANIMATION */
+/* 2. ELECTRIC CYAN-BLUE (DOWNLOAD) */
 .as-hero-btn-blue,
 .pill-btn-blue {
   background: linear-gradient(180deg, var(--as-btn-blue-from) 0%, var(--as-btn-blue-via) 48%, var(--as-btn-blue-to) 100%);
   color: #ffffff;
-  animation: heroBtnGlowBlue 3s ease-in-out 1s infinite alternate;
+  box-shadow:
+    0 8px 22px var(--as-btn-blue-shadow),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -4px 0 var(--as-btn-blue-bevel);
 }
 
-@keyframes heroBtnGlowBlue {
-  0% {
-    box-shadow:
-      0 8px 22px var(--as-btn-blue-shadow),
-      inset 0 1.5px 1px rgba(255, 255, 255, 0.8),
-      inset 0 -4px 0 var(--as-btn-blue-bevel);
-  }
-  100% {
-    box-shadow:
-      0 12px 32px rgba(0, 160, 255, 0.9),
-      0 0 25px rgba(0, 220, 255, 0.65),
-      inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
-      inset 0 -4px 0 var(--as-btn-blue-bevel);
-  }
+.as-hero-btn-blue:hover,
+.pill-btn-blue:hover {
+  box-shadow:
+    0 10px 26px var(--as-btn-blue-shadow),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -4px 0 var(--as-btn-blue-bevel);
 }
 
-/* 3. RUBY MAGENTA-PINK (TOP-UP) WITH PULSING SHADOW ANIMATION */
+/* 3. RUBY MAGENTA-PINK (TOP-UP) */
 .as-hero-btn-pink,
 .pill-btn-pink {
   background: linear-gradient(180deg, var(--as-btn-pink-from) 0%, var(--as-btn-pink-via) 48%, var(--as-btn-pink-to) 100%);
   color: #ffffff;
-  animation: heroBtnGlowPink 3s ease-in-out 2s infinite alternate;
+  box-shadow:
+    0 8px 22px var(--as-btn-pink-shadow),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -4px 0 var(--as-btn-pink-bevel);
 }
 
-@keyframes heroBtnGlowPink {
-  0% {
-    box-shadow:
-      0 8px 22px var(--as-btn-pink-shadow),
-      inset 0 1.5px 1px rgba(255, 255, 255, 0.8),
-      inset 0 -4px 0 var(--as-btn-pink-bevel);
-  }
-  100% {
-    box-shadow:
-      0 12px 32px rgba(255, 0, 110, 0.9),
-      0 0 25px rgba(255, 80, 180, 0.65),
-      inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
-      inset 0 -4px 0 var(--as-btn-pink-bevel);
-  }
+.as-hero-btn-pink:hover,
+.pill-btn-pink:hover {
+  box-shadow:
+    0 10px 26px var(--as-btn-pink-shadow),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -4px 0 var(--as-btn-pink-bevel);
 }
 
 /* Emblem icon badge inside hero button - Rich blended container */

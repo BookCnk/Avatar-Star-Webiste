@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${notoSansThai.variable} ${robotoMono.variable} h-full antialiased`}>
+    <html lang="th" className={`${notoSansThai.variable} ${robotoMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background font-sans font-medium text-foreground leading-relaxed">
         <LanguageProvider>{children}</LanguageProvider>
       </body>

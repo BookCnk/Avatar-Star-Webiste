@@ -206,7 +206,7 @@ export default function HomePage() {
                 {t.hero.watchTrailer}
               </span>
               <span className="block text-[10px] font-bold uppercase text-info">
-                Official Season 3
+                {t.hero.trailerBadge}
               </span>
             </div>
           </button>
