@@ -112,7 +112,7 @@ export function AvatarStarNavbar({
             aria-label="Avatar Star Home"
           >
             <Image
-              src="/logo.png"
+              src="/images/brand/logo.png"
               alt="Avatar Star Logo"
               width={140}
               height={42}
@@ -379,7 +379,7 @@ export function AvatarStarNavbar({
             >
               <div className="mobile-menu-heading">
                 <Image
-                  src="/logo.png"
+                  src="/images/brand/logo.png"
                   alt="Avatar Star"
                   width={120}
                   height={36}

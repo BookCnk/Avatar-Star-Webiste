@@ -38,7 +38,7 @@ export function AvatarStarFooter() {
           <div className="flex flex-col items-start md:col-span-5">
             <Link href="/" className="inline-block transition-transform hover:scale-105">
               <Image
-                src="/logo.png"
+                src="/images/brand/logo.png"
                 alt="Avatar Star"
                 width={190}
                 height={56}

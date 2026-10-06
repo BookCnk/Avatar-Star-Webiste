@@ -82,7 +82,7 @@ export default function DownloadPage() {
       {/* ATMOSPHERIC BACKGROUND IMAGE */}
       <div className="absolute inset-0 z-0 h-full w-full">
         <Image
-          src="/hero.png"
+          src="/images/backgrounds/hero.png"
           alt="Avatar Star Floating Islands"
           fill
           priority
@@ -104,7 +104,7 @@ export default function DownloadPage() {
             {/* Glowing Aura Behind Image */}
             <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-sky-500/30 via-cyan-400/40 to-amber-400/30 blur-2xl opacity-75 group-hover:opacity-100 transition duration-500" />
             <Image
-              src="/dowload-avatar.png"
+              src="/images/download/dowload-avatar.png"
               alt="Avatar Star Download Official Art"
               width={520}
               height={520}

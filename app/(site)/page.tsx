@@ -88,7 +88,7 @@ export default function HomePage() {
       >
         {/* Background Image Edge-to-Edge Desktop & Mobile */}
         <Image
-          src="/hero.png"
+          src="/images/backgrounds/hero.png"
           alt="Luna, Ryu and Kai charging into battle across the floating islands of Avatar Star"
           fill
           priority
@@ -97,7 +97,7 @@ export default function HomePage() {
           className="hidden sm:block object-cover object-center w-full h-full"
         />
         <Image
-          src="/hero-mobile.png"
+          src="/images/backgrounds/hero-mobile.png"
           alt="Luna, Ryu and Kai charging into battle across the floating islands of Avatar Star"
           fill
           priority
@@ -190,7 +190,7 @@ export default function HomePage() {
           >
             <div className="relative size-14 overflow-hidden rounded-lg">
               <Image
-                src="/footer-img.png"
+                src="/images/backgrounds/footer-img.png"
                 alt="Watch Trailer Preview"
                 fill
                 className="object-cover transition duration-300 group-hover:scale-110"
@@ -264,21 +264,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* MAIN CONTENT GRID */}
-      <div className="game-grid-bg">
-        {/* EVENTS SECTION */}
-        <section id="events" className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+      {/* EVENTS SECTION */}
+      <section id="events" className="relative overflow-hidden py-12 sm:py-16 lg:py-24 border-t border-game-border/60">
+        {/* Background Image: public/images/event/bg.png */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/event/bg.png"
+            alt="Avatar Star Events Background"
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          {/* Multi-layered overlay for high contrast & readability */}
+          <div className="absolute inset-0 bg-game-deep/85 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-game-deep via-transparent to-game-deep" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-highlight text-ink shadow-[0_0_20px_rgba(255,213,28,0.5)] sm:size-14">
                 <Star className="size-7 fill-current" />
               </span>
-              <h2 className="font-display text-3xl uppercase leading-none tracking-tight text-game-foreground sm:text-5xl">
+              <h2 className="font-display text-3xl uppercase leading-none tracking-tight text-white drop-shadow-md sm:text-5xl">
                 {t.events.title} <span className="text-highlight">{t.events.accent}</span>
               </h2>
             </div>
           </div>
-          <p className="mt-3 text-xs uppercase tracking-wider text-game-muted sm:ml-[70px]">
+          <p className="mt-3 text-xs uppercase tracking-wider text-sky-200/90 sm:ml-[70px]">
             {t.events.subtitle}
           </p>
 
@@ -286,8 +299,8 @@ export default function HomePage() {
             {/* Feature Card */}
             <article className="event-feature group relative min-h-[340px] overflow-hidden rounded-2xl border border-game-border shadow-game lg:min-h-[420px]">
               <Image
-                src="/footer-img.png"
-                alt="The Starfront floating island battlefield"
+                src="/images/event/bg.png"
+                alt="Avatar Star Harbor Event"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover transition duration-700 group-hover:scale-105"
@@ -359,35 +372,63 @@ export default function HomePage() {
               </article>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CHARACTERS SECTION */}
-        <section id="characters" className="mx-auto max-w-[1440px] px-4 pb-12 sm:px-6 lg:px-8 lg:pb-20">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-highlight text-ink shadow-[0_0_20px_rgba(255,213,28,0.5)] sm:size-14">
-                <Skull className="size-7 fill-current" />
-              </span>
-              <h2 className="font-display text-3xl uppercase leading-none tracking-tight text-game-foreground sm:text-5xl">
-                {t.characters.title}
-              </h2>
+      {/* CHARACTERS SECTION */}
+      <section id="characters" className="relative overflow-hidden pt-2 sm:pt-4 lg:pt-6 pb-14 sm:pb-20 lg:pb-24 border-t border-game-border/60">
+        {/* Background Artwork: characters/bg.png */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/characters/bg.png"
+            alt="Avatar Star Characters Showcase Stage"
+            fill
+            sizes="100vw"
+            className="object-cover object-bottom opacity-60"
+          />
+          {/* Sci-Fi Stage Atmosphere Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-game-deep/95 via-game-deep/75 to-game-deep" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_rgba(11,19,43,0.85)_100%)] pointer-events-none" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+          {/* Header Area with Centered Extra-Large 3D Graphic */}
+          <div className="relative flex flex-col items-center justify-center pt-1 pb-4 sm:pb-6">
+            <h2 className="sr-only">
+              {t.characters.title} - {t.characters.subtitle}
+            </h2>
+
+            {/* Giant Centered 3D Typography Graphic */}
+            <div className="relative group cursor-pointer transition-transform duration-300 hover:scale-105">
+              {/* Radiant glow behind 3D artwork */}
+              <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/20 via-sky-400/30 to-amber-400/20 blur-2xl opacity-60 group-hover:opacity-100 transition duration-500 pointer-events-none" />
+              <Image
+                src="/images/characters/text.png"
+                alt="ตัวละคร - เลือกสไตล์การเล่นในแบบของคุณ"
+                width={760}
+                height={570}
+                priority
+                className="relative z-10 h-36 sm:h-48 md:h-60 lg:h-72 xl:h-80 w-auto max-w-[95vw] object-contain drop-shadow-[0_16px_36px_rgba(0,0,0,0.85)] filter"
+              />
             </div>
-            <Link
-              href="#characters"
-              className="inline-flex items-center gap-2 rounded-lg border border-info/60 px-4 py-2 text-xs font-bold text-info hover:bg-info/10"
-            >
-              {t.characters.viewAll} <ArrowRight className="size-4" />
-            </Link>
+
+            {/* View All Button */}
+            <div className="mt-3 sm:mt-0 sm:absolute sm:right-0 sm:top-2 md:top-4 z-20">
+              <Link
+                href="#characters"
+                className="inline-flex items-center gap-2 rounded-xl border border-info/60 bg-game-deep/70 px-4 py-2 text-xs sm:text-sm font-bold text-info hover:bg-info/20 hover:border-info shadow-[0_4px_16px_rgba(16,174,242,0.25)] backdrop-blur-md transition-all"
+              >
+                <span>{t.characters.viewAll}</span>
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
           </div>
-          <p className="mt-3 text-xs uppercase tracking-wider text-game-muted sm:ml-[70px]">
-            {t.characters.subtitle}
-          </p>
 
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
             {characters.map((character) => (
               <article key={character.name} className={`character-card ${character.tone}`}>
                 <Image
-                  src="/hero.png"
+                  src="/images/backgrounds/hero.png"
                   alt={`${character.name}, ${character.role} class hero`}
                   fill
                   sizes="(min-width: 1024px) 33vw, 100vw"
@@ -429,20 +470,20 @@ export default function HomePage() {
               </article>
             ))}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       {/* COMMUNITY HERO BANNER */}
       <section id="community" className="relative min-h-[420px] overflow-hidden sm:aspect-[3/1] sm:min-h-0">
         <Image
-          src="/footer-img.png"
+          src="/images/backgrounds/footer-img.png"
           alt="The bright floating islands and sea of Avatar Star"
           fill
           sizes="100vw"
           className="hidden object-cover sm:block"
         />
         <Image
-          src="/footer-mobile.png"
+          src="/images/backgrounds/footer-mobile.png"
           alt="The bright floating islands and sea of Avatar Star"
           fill
           sizes="100vw"
