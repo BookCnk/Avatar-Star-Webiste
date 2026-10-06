@@ -12,7 +12,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>("en");
+  const [lang, setLangState] = useState<Language>("th");
 
   useEffect(() => {
     const saved = localStorage.getItem("avatar_star_lang") as Language;
@@ -30,7 +30,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const t = translations[lang] || translations.en;
+  const t = translations[lang] || translations.th;
 
   return (
     <LanguageContext.Provider value={{ lang, setLang, t }}>
