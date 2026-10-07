@@ -26,7 +26,7 @@ import {
   Radio,
   Zap,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language-context";
+import { siteContent } from "@/lib/translations";
 import { AvatarStarNavbar } from "@/components/avatar-star-navbar";
 import { AvatarStarFooter } from "@/components/avatar-star-footer";
 import {
@@ -38,7 +38,7 @@ import {
 } from "@/lib/events-data";
 
 export default function EventsPage() {
-  const { lang, t } = useLanguage();
+  const t = siteContent;
   const [selectedCategory, setSelectedCategory] = useState<"all" | EventCategory>("all");
   const [selectedStatus, setSelectedStatus] = useState<"all" | EventStatus>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -92,14 +92,10 @@ export default function EventsPage() {
       // Search query
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
-        const titleEn = event.title.en.toLowerCase();
         const titleTh = event.title.th.toLowerCase();
-        const descEn = event.shortDesc.en.toLowerCase();
         const descTh = event.shortDesc.th.toLowerCase();
         return (
-          titleEn.includes(query) ||
           titleTh.includes(query) ||
-          descEn.includes(query) ||
           descTh.includes(query)
         );
       }
@@ -238,21 +234,21 @@ export default function EventsPage() {
               <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-3">
                   <span className="badge badge-orange">
-                    {featuredEvent.tag[lang]}
+                    {featuredEvent.tag.th}
                   </span>
                   {getStatusBadge(featuredEvent.status)}
                 </div>
 
                 <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black uppercase italic leading-[0.95] text-white tracking-wide drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]">
-                  {featuredEvent.title[lang]}
+                  {featuredEvent.title.th}
                 </h1>
 
                 <p className="mt-2 text-sm sm:text-base font-bold text-highlight">
-                  {featuredEvent.subtitle[lang]}
+                  {featuredEvent.subtitle.th}
                 </p>
 
                 <p className="mt-4 text-xs sm:text-sm leading-relaxed text-game-muted font-semibold max-w-lg">
-                  {featuredEvent.shortDesc[lang]}
+                  {featuredEvent.shortDesc.th}
                 </p>
 
                 {/* Grand Prize Box */}
@@ -278,7 +274,7 @@ export default function EventsPage() {
                   <div className="relative aspect-[16/9] w-full">
                     <Image
                       src={featuredEvent.image}
-                      alt={featuredEvent.title[lang]}
+                      alt={featuredEvent.title.th}
                       fill
                       sizes="(min-width: 1024px) 50vw, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -290,7 +286,7 @@ export default function EventsPage() {
                     <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs font-bold text-white bg-game-deep/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20">
                       <div className="flex items-center gap-1.5">
                         <CalendarDays className="size-4 text-highlight" />
-                        <span>{featuredEvent.dateRange[lang]}</span>
+                        <span>{featuredEvent.dateRange.th}</span>
                       </div>
                       <span className="text-info font-black">SEASON 03</span>
                     </div>
@@ -492,7 +488,7 @@ export default function EventsPage() {
                     <div className="relative aspect-[16/9] w-full overflow-hidden bg-game-deep">
                       <Image
                         src={event.image}
-                        alt={event.title[lang]}
+                        alt={event.title.th}
                         fill
                         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -502,7 +498,7 @@ export default function EventsPage() {
                       {/* Top Badges */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
                         <span className="badge badge-orange shadow-md">
-                          {event.tag[lang]}
+                          {event.tag.th}
                         </span>
                         {getStatusBadge(event.status)}
                       </div>
@@ -510,47 +506,28 @@ export default function EventsPage() {
                       {/* Date Range Chip */}
                       <div className="absolute bottom-2.5 left-3 flex items-center gap-1.5 text-[11px] font-black text-game-foreground bg-game-deep/80 px-2.5 py-1 rounded-lg border border-white/10 backdrop-blur-sm">
                         <CalendarDays className="size-3 text-info" />
-                        <span>{event.dateRange[lang]}</span>
+                        <span>{event.dateRange.th}</span>
                       </div>
                     </div>
 
                     {/* Card Content */}
                     <div className="flex flex-1 flex-col p-5 sm:p-6">
-                      <h3 className="font-display text-xl sm:text-2xl font-black uppercase text-white tracking-wide group-hover:text-highlight transition">
-                        {event.title[lang]}
+                      <h3
+                        className="font-display text-xl sm:text-2xl font-black uppercase text-white tracking-wide group-hover:text-highlight transition truncate"
+                        title={event.title.th}
+                      >
+                        {event.title.th}
                       </h3>
 
-                      <p className="mt-2 text-xs text-game-muted font-bold line-clamp-2 leading-relaxed">
-                        {event.shortDesc[lang]}
+                      <p
+                        className="mt-2 text-xs text-game-muted font-bold line-clamp-2 leading-relaxed"
+                        title={event.shortDesc.th}
+                      >
+                        {event.shortDesc.th}
                       </p>
 
-                      {/* Reward Preview Chips */}
-                      <div className="mt-4 pt-4 border-t border-game-border/60">
-                        <div className="text-[10px] font-black uppercase tracking-wider text-game-muted mb-2 flex items-center gap-1">
-                          <Gift className="size-3 text-highlight" />
-                          <span>{t.eventsPage.rewardsLabel}</span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {event.rewards.slice(0, 2).map((rew, idx) => (
-                            <span
-                              key={idx}
-                              className={`text-[11px] font-extrabold px-2 py-0.5 rounded-md truncate max-w-full ${getRarityBadgeClass(
-                                rew.rarity
-                              )}`}
-                            >
-                              ★ {rew.name[lang]}
-                            </span>
-                          ))}
-                          {event.rewards.length > 2 && (
-                            <span className="text-[10px] font-black text-info px-1.5 py-0.5 self-center">
-                              +{event.rewards.length - 2} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
                       {/* Card Footer Actions */}
-                      <div className="mt-6 pt-3 flex items-center justify-between gap-2">
+                      <div className="mt-auto pt-5 flex items-center justify-between gap-2">
                         <button
                           type="button"
                           onClick={() => setActiveModalEvent(event)}
@@ -674,7 +651,7 @@ export default function EventsPage() {
             <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden mb-6 border border-white/20">
               <Image
                 src={activeModalEvent.image}
-                alt={activeModalEvent.title[lang]}
+                alt={activeModalEvent.title.th}
                 fill
                 sizes="(min-width: 1024px) 768px, 100vw"
                 className="object-cover"
@@ -682,7 +659,7 @@ export default function EventsPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-game-deep via-transparent to-transparent" />
               <div className="absolute bottom-3 left-3 flex flex-wrap items-center gap-2">
                 <span className="badge badge-orange">
-                  {activeModalEvent.tag[lang]}
+                  {activeModalEvent.tag.th}
                 </span>
                 {getStatusBadge(activeModalEvent.status)}
               </div>
@@ -690,20 +667,20 @@ export default function EventsPage() {
 
             {/* Modal Title & Desc */}
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white drop-shadow">
-              {activeModalEvent.title[lang]}
+              {activeModalEvent.title.th}
             </h2>
             <p className="mt-1 text-sm font-bold text-highlight">
-              {activeModalEvent.subtitle[lang]}
+              {activeModalEvent.subtitle.th}
             </p>
 
             <div className="flex items-center gap-2 text-xs font-extrabold text-game-muted mt-2">
               <CalendarDays className="size-4 text-info" />
               <span>{t.eventsPage.eventDuration}:</span>
-              <span className="text-white">{activeModalEvent.dateRange[lang]}</span>
+              <span className="text-white">{activeModalEvent.dateRange.th}</span>
             </div>
 
             <p className="mt-4 text-xs sm:text-sm text-game-muted font-medium leading-relaxed">
-              {activeModalEvent.fullDesc[lang]}
+              {activeModalEvent.fullDesc.th}
             </p>
 
             {/* Modal Rewards Section */}
@@ -725,16 +702,16 @@ export default function EventsPage() {
                             rew.rarity
                           )}`}
                         >
-                          {rew.badgeText[lang]}
+                          {rew.badgeText.th}
                         </span>
                         <Star className="size-3 fill-highlight text-highlight" />
                       </div>
                       <h5 className="font-display text-base font-black text-white">
-                        {rew.name[lang]}
+                        {rew.name.th}
                       </h5>
                     </div>
                     <p className="mt-2 text-[11px] font-medium text-game-muted">
-                      {rew.detail[lang]}
+                      {rew.detail.th}
                     </p>
                   </div>
                 ))}
@@ -759,10 +736,10 @@ export default function EventsPage() {
                       </div>
                       <div>
                         <div className="font-extrabold text-white">
-                          {mission.title[lang]}
+                          {mission.title.th}
                         </div>
                         <div className="text-game-muted font-medium mt-0.5">
-                          {mission.desc[lang]}
+                          {mission.desc.th}
                         </div>
                       </div>
                     </div>
@@ -780,7 +757,7 @@ export default function EventsPage() {
                 </h4>
                 <ul className="space-y-1.5 text-xs text-game-muted list-disc pl-5">
                   {activeModalEvent.rules.map((rule, idx) => (
-                    <li key={idx}>{rule[lang]}</li>
+                    <li key={idx}>{rule.th}</li>
                   ))}
                 </ul>
               </div>

@@ -14,11 +14,11 @@ import {
   Check,
   Sparkles,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language-context";
+import { siteContent } from "@/lib/translations";
 import { login } from "./actions";
 
 export function LoginClient() {
-  const { lang, setLang, t } = useLanguage();
+  const t = siteContent;
   const [state, formAction, isPending] = useActionState(login, { error: "" });
 
   // Form states
@@ -79,8 +79,8 @@ export function LoginClient() {
           />
         </Link>
 
-        {/* Right Action: Language Switcher Pill + Back Link */}
-        <div className="flex items-center gap-2">
+        {/* Back to home */}
+        <div>
           <Link
             href="/"
             className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-sky-400/40 bg-game-deep/80 px-3.5 py-1.5 text-xs font-black text-sky-200 backdrop-blur-md transition-all duration-200 hover:bg-game-surface hover:text-white hover:border-info hover:scale-105 active:scale-95 shadow-md"
@@ -89,31 +89,6 @@ export function LoginClient() {
             <span>{t.loginPage.backToHome}</span>
           </Link>
 
-          {/* Language Toggle Pill */}
-          <div className="flex items-center rounded-full border border-sky-400/50 bg-game-deep/85 p-1 shadow-md backdrop-blur-md">
-            <button
-              type="button"
-              onClick={() => setLang("th")}
-              className={`rounded-full px-2.5 py-1 text-xs font-black transition-all duration-200 cursor-pointer ${
-                lang === "th"
-                  ? "bg-gradient-to-b from-sky-400 to-sky-600 text-white shadow-[0_0_10px_rgba(56,189,248,0.5)] scale-105"
-                  : "text-game-muted hover:text-white"
-              }`}
-            >
-              TH
-            </button>
-            <button
-              type="button"
-              onClick={() => setLang("en")}
-              className={`rounded-full px-2.5 py-1 text-xs font-black transition-all duration-200 cursor-pointer ${
-                lang === "en"
-                  ? "bg-gradient-to-b from-sky-400 to-sky-600 text-white shadow-[0_0_10px_rgba(56,189,248,0.5)] scale-105"
-                  : "text-game-muted hover:text-white"
-              }`}
-            >
-              EN
-            </button>
-          </div>
         </div>
       </header>
 

@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Globe2,
   MessageCircle,
   Video,
   Users,
@@ -12,10 +11,10 @@ import {
   ChevronRight,
   Sparkles,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language-context";
+import { siteContent } from "@/lib/translations";
 
 export function AvatarStarFooter() {
-  const { lang, setLang, t } = useLanguage();
+  const t = siteContent;
 
   const quickLinks = [
     { key: "home", label: t.nav.home, href: "/#game" },
@@ -83,7 +82,7 @@ export function AvatarStarFooter() {
             </div>
           </div>
 
-          {/* Column 3: Community & Language (3 cols) */}
+          {/* Column 3: Community (3 cols) */}
           <div className="flex flex-col items-start md:col-span-3 md:items-end">
             <h4 className="font-display text-sm font-black uppercase tracking-wider text-white sm:text-base">
               {t.footer.communityTitle}
@@ -125,17 +124,6 @@ export function AvatarStarFooter() {
               </a>
             </div>
 
-            {/* Language Switcher Pill Button */}
-            <div className="mt-5">
-              <button
-                type="button"
-                onClick={() => setLang(lang === "en" ? "th" : "en")}
-                className="inline-flex items-center gap-2 rounded-xl border border-sky-400/40 bg-gradient-to-b from-sky-900/60 to-blue-950/80 px-4 py-2 text-xs font-bold text-white shadow-md transition hover:border-sky-300 hover:from-sky-800/80 hover:to-blue-900"
-              >
-                <Globe2 className="size-4 text-[#38bdf8]" />
-                <span>{lang === "en" ? "🇺🇸 English (EN)" : "🇹🇭 ภาษาไทย (TH)"}</span>
-              </button>
-            </div>
           </div>
         </div>
 

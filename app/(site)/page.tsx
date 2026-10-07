@@ -12,8 +12,6 @@ import {
   Crosshair,
   Download,
   Gamepad2,
-  Globe2,
-  Menu,
   MessageCircle,
   Play,
   Search,
@@ -32,13 +30,13 @@ import {
   UserPlus,
   CreditCard,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language-context";
+import { siteContent } from "@/lib/translations";
 import { AvatarStarNavbar } from "@/components/avatar-star-navbar";
 import { AvatarStarFooter } from "@/components/avatar-star-footer";
 import { HallOfFame } from "@/components/hall-of-fame";
 
 export default function HomePage() {
-  const { lang, setLang, t } = useLanguage();
+  const t = siteContent;
   const [activeNav, setActiveNav] = useState("home");
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [activeCharIndex, setActiveCharIndex] = useState(0);
@@ -65,7 +63,7 @@ export default function HomePage() {
         { label: t.characters.stats.defense, percent: "48%" },
         { label: t.characters.stats.mobility, percent: "98%" },
       ],
-      weapons: lang === "th" ? ["มีดโค้งสังหารคู่", "ระเบิดควันพรางตัว", "เคียวความมืด"] : ["Dual Curved Scythes", "Smoke Cloak", "Shadow Daggers"],
+      weapons: ["มีดโค้งสังหารคู่", "ระเบิดควันพรางตัว", "เคียวความมืด"],
     },
     {
       id: "gunner",
@@ -87,7 +85,7 @@ export default function HomePage() {
         { label: t.characters.stats.defense, percent: "78%" },
         { label: t.characters.stats.mobility, percent: "58%" },
       ],
-      weapons: lang === "th" ? ["ปืนกลกิตาร์เฮฟวี่", "กระสุนระเบิดแรงสูง", "จรวดนำวิถี"] : ["Gatling Guitar", "High-Caliber Shells", "Rocket Pods"],
+      weapons: ["ปืนกลกิตาร์เฮฟวี่", "กระสุนระเบิดแรงสูง", "จรวดนำวิถี"],
     },
     {
       id: "biochemist",
@@ -109,7 +107,7 @@ export default function HomePage() {
         { label: t.characters.stats.defense, percent: "72%" },
         { label: t.characters.stats.mobility, percent: "70%" },
       ],
-      weapons: lang === "th" ? ["ปืนยิงสารชีวเคมี", "กระบอกก๊าซพิษกัดกร่อน", "ระเบิดมลพิษวงกว้าง"] : ["Bio-Chemical Cannon", "Toxic Canisters", "Corrosive Sprayer"],
+      weapons: ["ปืนยิงสารชีวเคมี", "กระบอกก๊าซพิษกัดกร่อน", "ระเบิดมลพิษวงกว้าง"],
     },
     {
       id: "guardian",
@@ -131,7 +129,7 @@ export default function HomePage() {
         { label: t.characters.stats.defense, percent: "96%" },
         { label: t.characters.stats.mobility, percent: "74%" },
       ],
-      weapons: lang === "th" ? ["หน้าไม้ยิงพัลส์ฟื้นฟู", "โล่พลังงานบริสุทธิ์", "แอมพูลนาโนรักษา"] : ["Medical Pulse Crossbow", "Energy Barrier", "Nano-Healing Cells"],
+      weapons: ["หน้าไม้ยิงพัลส์ฟื้นฟู", "โล่พลังงานบริสุทธิ์", "แอมพูลนาโนรักษา"],
     },
   ];
 
@@ -508,7 +506,7 @@ export default function HomePage() {
               href="/events"
               className="as-btn-cyan px-8 py-3 text-sm sm:text-base font-black shadow-[0_8px_24px_rgba(2,132,199,0.45)]"
             >
-              <span>{lang === "th" ? "ดูปฏิทินและกิจกรรมทั้งหมด" : "View All Events & Schedule"}</span>
+              <span>ดูปฏิทินและกิจกรรมทั้งหมด</span>
               <ArrowRight className="size-4.5 stroke-[2.5]" />
             </Link>
           </div>
@@ -686,7 +684,7 @@ export default function HomePage() {
                 </div>
 
                 <p className="mt-2 text-base font-bold italic text-sky-200/90 sm:text-lg">
-                  "{activeChar.line}"
+                  &quot;{activeChar.line}&quot;
                 </p>
 
                 {/* Lore / Playstyle Box */}
@@ -748,7 +746,7 @@ export default function HomePage() {
                     className="as-dl-btn px-8 py-3 text-base shadow-[0_8px_24px_rgba(245,158,11,0.5)]"
                   >
                     <Download className="size-5 stroke-[2.8]" />
-                    <span>{lang === "th" ? "เลือกเล่นคลาสนี้" : "Play This Class"}</span>
+                    <span>เลือกเล่นคลาสนี้</span>
                   </Link>
 
                   {/* Interactive Slidebar Tracker */}

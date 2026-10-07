@@ -13,7 +13,7 @@ import {
   Star,
   Trophy,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language-context";
+import { siteContent } from "@/lib/translations";
 
 type RankingCategory = "eliminations" | "victories" | "rating";
 type SlideDirection = "previous" | "next";
@@ -109,7 +109,7 @@ function RankingPreview({ board, categoryLabel, unitLabel, position }: RankingPr
 }
 
 export function HallOfFame() {
-  const { t } = useLanguage();
+  const t = siteContent;
   const [activeCategory, setActiveCategory] = useState<RankingCategory>("eliminations");
   const [slideDirection, setSlideDirection] = useState<SlideDirection>("next");
   const activeBoard = rankingBoards.find((board) => board.id === activeCategory) ?? rankingBoards[0];

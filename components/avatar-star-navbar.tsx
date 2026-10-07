@@ -4,12 +4,10 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Globe2,
   ChevronDown,
   ChevronRight,
   Menu,
   X,
-  Check,
   Gamepad2,
   Download,
   Flame,
@@ -21,7 +19,7 @@ import {
   MessageSquare,
   Headphones,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language-context";
+import { siteContent } from "@/lib/translations";
 
 interface AvatarStarNavbarProps {
   activeNav?: string;
@@ -32,15 +30,13 @@ export function AvatarStarNavbar({
   activeNav: controlledActiveNav,
   onNavClick,
 }: AvatarStarNavbarProps) {
-  const { lang, setLang, t } = useLanguage();
+  const t = siteContent;
   const [internalActiveNav, setInternalActiveNav] = useState("home");
   const activeNav = controlledActiveNav ?? internalActiveNav;
 
-  const [isLangOpen, setIsLangOpen] = useState(false);
   const [isGameMenuOpen, setIsGameMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const langRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<HTMLDivElement>(null);
 
   const handleNavClick = (key: string) => {
@@ -54,9 +50,6 @@ export function AvatarStarNavbar({
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (langRef.current && !langRef.current.contains(target)) {
-        setIsLangOpen(false);
-      }
       if (gameRef.current && !gameRef.current.contains(target)) {
         setIsGameMenuOpen(false);
       }
@@ -212,70 +205,8 @@ export function AvatarStarNavbar({
             })}
           </nav>
 
-          {/* 3. Right Controls: Language, "สมัคร >", and Hamburger Button */}
+          {/* 3. Right Controls: Register and Hamburger Button */}
           <div className="flex items-center gap-1 sm:gap-2 pr-0.5 sm:pr-1 shrink-0">
-            {/* Language Switcher Dropdown (Globe + Current Lang + Chevron) */}
-            <div className="relative" ref={langRef}>
-              <button
-                type="button"
-                onClick={() => setIsLangOpen(!isLangOpen)}
-                aria-label="Select Language"
-                aria-expanded={isLangOpen}
-                aria-haspopup="true"
-                className="as-nav-lang-btn"
-              >
-                <Globe2 className="size-3.5 sm:size-4 text-[#70dbff]" />
-                <span className="font-black text-[11px] sm:text-xs tracking-wider">
-                  {lang === "th" ? "TH" : "EN"}
-                </span>
-                <ChevronDown
-                  className={`size-3 stroke-[2.5] text-white/80 transition-transform duration-200 ${
-                    isLangOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {isLangOpen && (
-                <div className="absolute right-0 top-full mt-2.5 w-44 rounded-2xl border border-white/20 bg-[#002787]/95 p-1.5 shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150 z-50">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLang("th");
-                      setIsLangOpen(false);
-                    }}
-                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-bold transition ${
-                      lang === "th"
-                        ? "bg-white/20 text-[#ffd51c]"
-                        : "text-white hover:bg-white/10"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="text-base">🇹🇭</span> ภาษาไทย (TH)
-                    </span>
-                    {lang === "th" && <Check className="size-3.5 stroke-[3] text-[#ffd51c]" />}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLang("en");
-                      setIsLangOpen(false);
-                    }}
-                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-bold transition ${
-                      lang === "en"
-                        ? "bg-white/20 text-[#ffd51c]"
-                        : "text-white hover:bg-white/10"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="text-base">🇺🇸</span> English (EN)
-                    </span>
-                    {lang === "en" && <Check className="size-3.5 stroke-[3] text-[#ffd51c]" />}
-                  </button>
-                </div>
-              )}
-            </div>
-
             {/* "สมัคร >" Golden Glossy Pill CTA Button */}
             <Link
               href="#characters"
@@ -374,35 +305,6 @@ export function AvatarStarNavbar({
                   );
                 })}
 
-                <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between px-2">
-                  <span className="text-xs font-bold text-white/80">เลือกภาษา / Language:</span>
-                  <div className="flex items-center gap-1 bg-black/25 p-1 rounded-xl border border-white/15">
-                    <button
-                      type="button"
-                      onClick={() => setLang("th")}
-                      className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black transition ${
-                        lang === "th"
-                          ? "bg-white/25 text-[#ffd51c] shadow"
-                          : "text-white/60 hover:text-white"
-                      }`}
-                    >
-                      <span>🇹🇭</span>
-                      <span>TH</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setLang("en")}
-                      className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black transition ${
-                        lang === "en"
-                          ? "bg-white/25 text-[#ffd51c] shadow"
-                          : "text-white/60 hover:text-white"
-                      }`}
-                    >
-                      <span>🇺🇸</span>
-                      <span>EN</span>
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </>

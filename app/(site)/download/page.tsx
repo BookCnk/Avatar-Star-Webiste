@@ -19,17 +19,13 @@ import {
   Crown,
   FolderOpen,
   Gamepad2,
-  Globe2,
-  MessageCircle,
-  Video,
-  Users,
 } from "lucide-react";
-import { useLanguage } from "@/lib/language-context";
+import { siteContent } from "@/lib/translations";
 import { AvatarStarNavbar } from "@/components/avatar-star-navbar";
 import { AvatarStarFooter } from "@/components/avatar-star-footer";
 
 export default function DownloadPage() {
-  const { lang, setLang, t } = useLanguage();
+  const t = siteContent;
 
   const minSpecs = [
     { label: t.downloadPage.specCpu, value: t.downloadPage.minCpuVal, icon: Cpu },

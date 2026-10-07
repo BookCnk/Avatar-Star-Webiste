@@ -4,14 +4,9 @@ import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import HomePage from "../app/(site)/page";
 import DownloadPage from "../app/(site)/download/page";
-import { LanguageProvider } from "../lib/language-context";
 
 test("homepage exposes the primary game actions and content sections", () => {
-  const html = renderToStaticMarkup(
-    <LanguageProvider>
-      <HomePage />
-    </LanguageProvider>
-  );
+  const html = renderToStaticMarkup(<HomePage />);
 
   assert.match(html, /(Register|ลงทะเบียน|สมัคร)/i);
   assert.match(html, /(Download|ดาวน์โหลด)/i);
@@ -24,7 +19,7 @@ test("homepage exposes the primary game actions and content sections", () => {
   assert.match(html, /class="mobile-menu-close"/);
   assert.match(html, /data-state="closed"/);
   assert.match(html, /(Download|ดาวน์โหลด)/i);
-  assert.match(html, /(Language|ภาษา)/i);
+  assert.doesNotMatch(html, /Select Language|\bTH\b|\bEN\b/i);
 
   const hashDownloadLinks = html.match(/href="#download"/g) ?? [];
   assert.equal(
@@ -36,22 +31,14 @@ test("homepage exposes the primary game actions and content sections", () => {
 });
 
 test("download page anchors the primary download action to its download section", () => {
-  const html = renderToStaticMarkup(
-    <LanguageProvider>
-      <DownloadPage />
-    </LanguageProvider>
-  );
+  const html = renderToStaticMarkup(<DownloadPage />);
 
   assert.match(html, /href="#download"/);
   assert.match(html, /id="download"/);
 });
 
 test("community section renders an interactive Hall of Fame leaderboard", () => {
-  const html = renderToStaticMarkup(
-    <LanguageProvider>
-      <HomePage />
-    </LanguageProvider>
-  );
+  const html = renderToStaticMarkup(<HomePage />);
 
   assert.match(html, /<section[^>]*id="community"/);
   assert.match(html, /HALL OF FAME/);
