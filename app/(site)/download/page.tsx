@@ -231,41 +231,51 @@ export default function DownloadPage() {
           </div>
 
           {/* 3 Step Cards Flow - 3D Arcade Quest Stages */}
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
             {installSteps.map((step, idx) => {
               const Icon = step.icon;
               return (
                 <div
                   key={step.step}
-                  className="as-step-card relative flex flex-col justify-between p-5 text-white"
+                  className="as-step-card relative flex flex-col justify-center p-3.5 sm:p-4 text-white overflow-visible transition-all duration-300"
                 >
-                  <div className="flex items-start gap-3.5">
+                  {/* Top Header Row: Step Coin + Neon Icon + Title */}
+                  <div className="flex items-center gap-2.5">
                     {/* 3D Gold Step Number Coin */}
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#ffd000] to-[#f59e0b] border-1.5 border-white font-display text-base font-black text-[#3b1d00] shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_3px_0_#b45309,0_4px_10px_rgba(245,158,11,0.5)]">
+                    <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#ffd000] to-[#f59e0b] border border-white font-display text-xs font-black text-[#3b1d00] shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_2px_0_#b45309,0_3px_8px_rgba(245,158,11,0.5)]">
                       {step.step}
                     </div>
 
                     {/* 3D Neon Icon Box */}
-                    <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-b from-sky-400/30 to-blue-600/40 text-cyan-300 border border-sky-300/40 shadow-inner">
-                      <Icon className="size-6 stroke-[2.5]" />
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-b from-sky-400/35 to-blue-600/45 text-cyan-200 border border-sky-300/40 shadow-inner">
+                      <Icon className="size-4.5 stroke-[2.5]" />
                     </div>
 
-                    {/* Texts */}
-                    <div>
-                      <h4 className="font-display text-lg font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] sm:text-xl">
-                        {step.title}
-                      </h4>
-                      <p className="mt-1 text-xs font-semibold leading-relaxed text-sky-200/90">
-                        {step.desc}
-                      </p>
-                    </div>
+                    {/* Title */}
+                    <h4 className="font-display text-base sm:text-lg font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] tracking-wide">
+                      {step.title}
+                    </h4>
                   </div>
 
-                  {/* Flow 3D Chevron Arrow on desktop */}
+                  {/* Description: Spans full width cleanly with no dead space */}
+                  <p className="mt-2 text-xs sm:text-[13px] font-semibold leading-relaxed text-sky-100 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {step.desc}
+                  </p>
+
+                  {/* Flow 3D Chevron Arrow on Desktop (Centered in the gap between cards) */}
                   {idx < 2 && (
-                    <div className="pointer-events-none absolute -right-3.5 top-1/2 hidden -translate-y-1/2 z-20 md:block">
-                      <div className="flex size-7 items-center justify-center rounded-full bg-gradient-to-b from-sky-400 to-blue-600 border border-white text-white shadow-[0_3px_0_#0369a1,0_4px_12px_rgba(2,132,199,0.7)]">
-                        <ChevronRight className="size-4.5 stroke-[3]" />
+                    <div className="pointer-events-none absolute left-[calc(100%+0.625rem)] top-1/2 hidden -translate-x-1/2 -translate-y-1/2 z-30 md:flex items-center justify-center">
+                      <div className="flex size-7.5 items-center justify-center rounded-full bg-gradient-to-b from-sky-300 via-sky-500 to-blue-600 border-1.5 border-white text-white shadow-[0_2px_0_#0284c7,0_0_14px_rgba(56,189,248,0.9)]">
+                        <ChevronRight className="size-4 stroke-[3] translate-x-0.2 text-white drop-shadow" />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Flow 3D Chevron Arrow on Mobile (Pointing down between stacked cards) */}
+                  {idx < 2 && (
+                    <div className="pointer-events-none absolute left-1/2 -bottom-3.5 -translate-x-1/2 z-30 flex md:hidden items-center justify-center">
+                      <div className="flex size-7 items-center justify-center rounded-full bg-gradient-to-b from-sky-300 via-sky-500 to-blue-600 border-1.5 border-white text-white shadow-[0_2px_0_#0284c7,0_0_12px_rgba(56,189,248,0.85)]">
+                        <ChevronRight className="size-4 stroke-[3] rotate-90 text-white" />
                       </div>
                     </div>
                   )}

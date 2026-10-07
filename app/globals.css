@@ -1909,7 +1909,7 @@ html {
     0 14px 30px rgba(0, 12, 40, 0.65),
     0 0 20px var(--as-step-card-glow);
   backdrop-filter: blur(14px);
-  overflow: hidden;
+  overflow: visible;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 .as-step-card:hover {

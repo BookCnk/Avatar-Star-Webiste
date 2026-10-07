@@ -87,7 +87,6 @@ export function AvatarStarNavbar({
     { key: "news", label: t.nav.news, href: "/#news", icon: Newspaper },
     { key: "community", label: t.nav.community, href: "/#community", icon: MessageSquare },
     { key: "download", label: t.nav.downloadNav, href: "/download", isDownloadPill: true, icon: Download },
-    { key: "support", label: t.nav.support, href: "/#support", icon: Headphones },
   ];
 
   return (
@@ -209,8 +208,8 @@ export function AvatarStarNavbar({
           <div className="flex items-center gap-1 sm:gap-2 pr-0.5 sm:pr-1 shrink-0">
             {/* "สมัคร >" Golden Glossy Pill CTA Button */}
             <Link
-              href="#characters"
-              onClick={() => handleNavClick("characters")}
+              href="/register"
+              onClick={() => handleNavClick("register")}
               className="as-nav-play-button text-xs sm:text-base px-2.5 py-1 sm:px-5 sm:py-2"
             >
               <span>{t.nav.register}</span>
