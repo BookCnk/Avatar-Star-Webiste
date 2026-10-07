@@ -2673,3 +2673,280 @@ html[data-motion-ready="true"] [data-motion="stagger"][data-motion-state="reveal
     transition: none !important;
   }
 }
+
+
+/* ========================================================
+   AVATAR STAR REGISTER CYBERNETIC CARD STYLES
+   ======================================================== */
+
+.as-regis-card {
+  position: relative;
+  border-radius: 1.75rem;
+  border: 2px solid color-mix(in srgb, var(--info) 85%, white);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--game-raised) 92%, var(--brand-blue)) 0%,
+    color-mix(in srgb, var(--game-deep) 96%, black) 100%
+  );
+  box-shadow:
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.4),
+    0 0 35px color-mix(in srgb, var(--info) 45%, transparent),
+    0 16px 50px rgba(0, 5, 25, 0.9);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* Cyber Notch Cap on Top */
+.as-regis-card-notch {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 12px;
+  background: color-mix(in srgb, var(--info) 80%, white);
+  clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+  box-shadow: 0 0 16px var(--info);
+}
+
+/* Sci-Fi Decorative Side Notches */
+.as-regis-notch-left {
+  position: absolute;
+  top: 50%;
+  left: -2px;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 48px;
+  background: var(--info);
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 10px var(--info);
+}
+.as-regis-notch-right {
+  position: absolute;
+  top: 50%;
+  right: -2px;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 48px;
+  background: var(--info);
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 0 10px var(--info);
+}
+
+/* Cybernetic Inputs */
+.as-regis-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 0.85rem;
+  border: 1.5px solid color-mix(in srgb, var(--info) 40%, transparent);
+  background: color-mix(in srgb, var(--game-deep) 90%, black);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.7),
+    0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+.as-regis-input-wrapper:focus-within {
+  border-color: var(--info);
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--info) 50%, transparent),
+    inset 0 1px 3px rgba(0, 0, 0, 0.8);
+  transform: translateY(-1px);
+}
+
+.as-regis-input {
+  width: 100%;
+  background: transparent;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ffffff;
+  outline: none;
+}
+.as-regis-input::placeholder {
+  color: color-mix(in srgb, var(--game-muted) 80%, transparent);
+  font-weight: 600;
+}
+
+/* Custom Checkbox */
+.as-regis-checkbox {
+  appearance: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 0.35rem;
+  border: 1.5px solid color-mix(in srgb, var(--info) 60%, transparent);
+  background: color-mix(in srgb, var(--game-deep) 80%, black);
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+.as-regis-checkbox:checked {
+  background: var(--info);
+  border-color: #ffffff;
+  box-shadow: 0 0 10px var(--info);
+}
+.as-regis-checkbox:checked::before {
+  content: "✔";
+  color: #07152f;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+/* Social Buttons */
+.as-social-btn-google {
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+}
+.as-social-btn-google:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.as-social-btn-fb {
+  background: #1877f2;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(24, 119, 242, 0.4);
+  transition: all 0.15s ease;
+}
+.as-social-btn-fb:hover {
+  background: #166fe5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.6);
+}
+
+.as-social-btn-line {
+  background: #06c755;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(6, 199, 85, 0.4);
+  transition: all 0.15s ease;
+}
+.as-social-btn-line:hover {
+  background: #05b34c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(6, 199, 85, 0.6);
+}
+
+
+/* ========================================================
+   REGISTER PAGE ADVANCED CYBER ANIMATIONS
+   ======================================================== */
+
+@keyframes as-pop-in {
+  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+  65% { transform: scale(1.25) rotate(6deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes as-glow-flare {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(0.98);
+    filter: blur(16px);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.06);
+    filter: blur(22px);
+  }
+}
+
+@keyframes as-card-boot {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(24px);
+    box-shadow: 0 0 0 rgba(0, 180, 255, 0);
+  }
+  60% {
+    transform: scale(1.01) translateY(-2px);
+    box-shadow: 0 0 45px rgba(0, 180, 255, 0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 35px rgba(0, 180, 255, 0.45);
+  }
+}
+
+@keyframes as-scan-beam {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 98%;
+    opacity: 0;
+  }
+}
+
+@keyframes as-float-character {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.6deg);
+  }
+}
+
+.as-regis-card-animate {
+  animation: as-card-boot 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.as-pop-in {
+  animation: as-pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.as-flare-pulse {
+  animation: as-glow-flare 2.8s ease-in-out infinite;
+}
+
+.as-scan-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #38bdf8 30%, #ffffff 50%, #38bdf8 70%, transparent 100%);
+  box-shadow: 0 0 12px #38bdf8, 0 0 24px #38bdf8;
+  pointer-events: none;
+  z-index: 15;
+  animation: as-scan-beam 4s ease-in-out infinite;
+}
+
+.as-field-entrance {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: as-field-slide 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes as-field-slide {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .as-regis-card-animate,
+  .as-pop-in,
+  .as-flare-pulse,
+  .as-scan-beam,
+  .as-field-entrance {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

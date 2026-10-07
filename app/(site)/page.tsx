@@ -225,7 +225,7 @@ export default function HomePage() {
           <div className="flex w-full max-w-4xl flex-wrap items-center justify-center gap-4 sm:gap-6" data-motion="stagger">
             {/* REGISTER BUTTON (GOLD) */}
             <Link
-              href="#characters"
+              href="/register"
               className="as-hero-btn as-hero-btn-gold as-btn-shimmer group flex-1 min-w-[220px] max-w-[280px]"
             >
               <div className="as-hero-btn-badge group-hover:rotate-6 transition-transform">
