@@ -222,11 +222,11 @@ export default function HomePage() {
           className="relative z-20 flex flex-col items-center justify-center px-4 pb-4 sm:pb-6 lg:pb-8"
         >
           {/* 3 GLOSSY PILL BUTTONS (REGISTER, DOWNLOAD, TOP-UP) */}
-          <div className="flex w-full max-w-4xl flex-wrap items-center justify-center gap-4 sm:gap-6">
+          <div className="flex w-full max-w-4xl flex-wrap items-center justify-center gap-4 sm:gap-6" data-motion="stagger">
             {/* REGISTER BUTTON (GOLD) */}
             <Link
               href="#characters"
-              className="as-hero-btn as-hero-btn-gold group flex-1 min-w-[220px] max-w-[280px]"
+              className="as-hero-btn as-hero-btn-gold as-btn-shimmer group flex-1 min-w-[220px] max-w-[280px]"
             >
               <div className="as-hero-btn-badge group-hover:rotate-6 transition-transform">
                 <UserPlus className="size-6 text-[#07152f] stroke-[2.8]" />
@@ -247,7 +247,7 @@ export default function HomePage() {
             {/* DOWNLOAD BUTTON (CYAN-BLUE) */}
             <Link
               href="/download"
-              className="as-hero-btn as-hero-btn-blue group flex-1 min-w-[220px] max-w-[280px]"
+              className="as-hero-btn as-hero-btn-blue as-btn-shimmer group flex-1 min-w-[220px] max-w-[280px]"
             >
               <div className="as-hero-btn-badge group-hover:rotate-6 transition-transform">
                 <Download className="size-6 text-white stroke-[2.8]" />
@@ -268,7 +268,7 @@ export default function HomePage() {
             {/* TOP-UP BUTTON (RUBY PINK) */}
             <Link
               href="#support"
-              className="as-hero-btn as-hero-btn-pink group flex-1 min-w-[220px] max-w-[280px]"
+              className="as-hero-btn as-hero-btn-pink as-btn-shimmer group flex-1 min-w-[220px] max-w-[280px]"
             >
               <div className="as-hero-btn-badge group-hover:rotate-6 transition-transform">
                 <CreditCard className="size-6 text-white stroke-[2.8]" />
@@ -289,7 +289,7 @@ export default function HomePage() {
         </div>
 
         {/* WATCH TRAILER FLOATING CARD (BOTTOM RIGHT) */}
-        <div className="absolute bottom-8 right-6 z-20 hidden lg:block xl:right-12">
+        <div className="absolute bottom-8 right-6 z-20 hidden lg:block xl:right-12 as-motion-float">
           <button
             type="button"
             onClick={() => setIsVideoOpen(true)}
@@ -345,7 +345,7 @@ export default function HomePage() {
       )}
 
       {/* NEWS TICKER BAR */}
-      <section id="news" aria-label="Latest news" className="as-news-ticker-bar py-2">
+      <section id="news" aria-label="Latest news" className="as-news-ticker-bar py-2" data-motion="fade-up">
         <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
           <div className="as-news-category-badge">
             <Volume2 className="size-4 fill-current" />
@@ -389,8 +389,8 @@ export default function HomePage() {
 
         <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
           {/* 3D Events & News Header Graphic - Centered */}
-          <div className="relative flex flex-col items-center justify-center pb-4 sm:pb-6">
-            <div className="relative group cursor-pointer transition-transform duration-300 hover:scale-105">
+          <div className="relative flex flex-col items-center justify-center pb-4 sm:pb-6 as-motion-float">
+            <Link href="/events" className="relative group cursor-pointer transition-transform duration-300 hover:scale-105 block">
               <h2 className="sr-only">
                 {t.events.title} {t.events.accent} - {t.events.subtitle}
               </h2>
@@ -404,11 +404,28 @@ export default function HomePage() {
                 priority
                 className="relative z-10 h-28 sm:h-36 md:h-44 lg:h-48 w-auto max-w-[95vw] object-contain drop-shadow-[0_14px_36px_rgba(0,0,0,0.85)] filter"
               />
+            </Link>
+          </div>
+
+                    {/* COMING SOON EVENT SHOWCASE */}
+          <div className="mt-8 flex flex-col items-center justify-center" data-motion="scale-in">
+            <div className="relative group w-full max-w-4xl overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-game-border/80 shadow-2xl bg-game-deep/80 backdrop-blur-md transition-all duration-300 hover:border-info hover:shadow-[0_0_35px_rgba(16,174,242,0.35)]">
+              <Image
+                src="/images/event/coming-soon.png"
+                alt="Avatar Star Events Coming Soon"
+                width={1672}
+                height={941}
+                priority
+                className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.01]"
+              />
             </div>
           </div>
 
+          {/* ========================================================
+              TEMPORARILY COMMENTED OUT: Events Grid & View All Button
+              ========================================================
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
-            {/* Feature Card */}
+            <!-- Feature Card -->
             <article className="event-feature group relative min-h-[340px] overflow-hidden rounded-2xl border border-game-border shadow-game lg:min-h-[420px]">
               <Image
                 src="/images/event/bg.png"
@@ -427,7 +444,7 @@ export default function HomePage() {
                   {t.events.starfront.desc}
                 </p>
                 <Link
-                  href="#characters"
+                  href="/events"
                   className="game-button-3d-purple mt-6 w-fit px-7 py-3 text-sm"
                 >
                   {t.events.starfront.learnMore} <ArrowRight className="size-4" />
@@ -435,7 +452,7 @@ export default function HomePage() {
               </div>
             </article>
 
-            {/* Grid Cards */}
+            <!-- Grid Cards -->
             <div className="grid gap-4 sm:grid-cols-2">
               <article className="event-card event-card-orange">
                 <CalendarDays className="size-8 text-highlight" />
@@ -484,6 +501,18 @@ export default function HomePage() {
               </article>
             </div>
           </div>
+
+          <!-- View All Events Action -->
+          <div className="mt-8 flex justify-center">
+            <Link
+              href="/events"
+              className="as-btn-cyan px-8 py-3 text-sm sm:text-base font-black shadow-[0_8px_24px_rgba(2,132,199,0.45)]"
+            >
+              <span>{lang === "th" ? "ดูปฏิทินและกิจกรรมทั้งหมด" : "View All Events & Schedule"}</span>
+              <ArrowRight className="size-4.5 stroke-[2.5]" />
+            </Link>
+          </div>
+          */}
         </div>
       </section>
 
@@ -517,7 +546,7 @@ export default function HomePage() {
 
         <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
           {/* Header Area with Centered Extra-Large 3D Graphic */}
-          <div className="relative flex flex-col items-center justify-center pt-1 pb-2">
+          <div className="relative flex flex-col items-center justify-center pt-1 pb-2 as-motion-float-slow">
             <h2 className="sr-only">
               {t.characters.title} - {t.characters.subtitle}
             </h2>
@@ -548,7 +577,7 @@ export default function HomePage() {
           </div>
 
           {/* 1. INTERACTIVE CLASS SELECTOR TABS (SLIDEBAR TABS) */}
-          <div className="my-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <div className="my-4 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5" data-motion="fade-up">
             {characterClasses.map((char, index) => {
               const isActive = activeCharIndex === index;
               return (
@@ -556,22 +585,30 @@ export default function HomePage() {
                   key={char.id}
                   type="button"
                   onClick={() => setActiveCharIndex(index)}
-                  className={`as-char-tab ${isActive ? char.tabActive : ""}`}
+                  className={`as-char-tab ${isActive ? `${char.tabActive} active` : ""}`}
+                  aria-label={char.name}
+                  aria-selected={isActive}
                 >
-                  <span className="text-sm">
-                    {index === 0 && "🗡️"}
-                    {index === 1 && "💥"}
-                    {index === 2 && "☣️"}
-                    {index === 3 && "🛡️"}
-                  </span>
-                  <span>{char.name}</span>
+                  <span className="sr-only">{char.name}</span>
+                  <Image
+                    src={char.titleImage}
+                    alt={char.name}
+                    width={220}
+                    height={74}
+                    priority
+                    className={`h-6 sm:h-7.5 md:h-9 w-auto max-w-[95px] sm:max-w-[125px] md:max-w-[155px] object-contain transition-all duration-200 ${
+                      isActive
+                        ? "drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] filter brightness-110"
+                        : "filter brightness-90 hover:brightness-105"
+                    }`}
+                  />
                 </button>
               );
             })}
           </div>
 
           {/* 2. MAIN CHARACTER SHOWCASE SLIDER */}
-          <div className="relative mt-4 sm:mt-6 rounded-3xl border border-game-border/80 bg-game-deep/70 p-4 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-md">
+          <div className="relative mt-4 sm:mt-6 rounded-3xl border border-game-border/80 bg-game-deep/70 p-4 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-md" data-motion="fade-up">
             {/* Ambient Backlight for Active Class */}
             <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${activeChar.accentGradient} pointer-events-none transition-colors duration-500`} />
 

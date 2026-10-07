@@ -98,9 +98,14 @@ export default function DownloadPage() {
       {/* MAIN CENTERED DOWNLOAD CONTENT */}
       <div className="relative z-20 mx-auto max-w-4xl px-4 pt-24 pb-20 sm:pt-32 sm:px-6">
         {/* CENTERED HERO ARTWORK & DOWNLOAD ACTION */}
-        <section aria-label="Avatar Star Download Showcase" className="flex flex-col items-center text-center">
+        <section
+          id="download"
+          aria-label="Avatar Star Download Showcase"
+          className="flex flex-col items-center text-center"
+          data-motion="fade-up"
+        >
           {/* Main Featured Artwork: dowload-avatar.png */}
-          <div className="relative group my-2">
+          <div className="relative group my-2 as-motion-float">
             {/* Glowing Aura Behind Image */}
             <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-sky-500/30 via-cyan-400/40 to-amber-400/30 blur-2xl opacity-75 group-hover:opacity-100 transition duration-500" />
             <Image
@@ -122,7 +127,7 @@ export default function DownloadPage() {
           <div className="mt-6 flex flex-col items-center gap-2">
             <a
               href="#download"
-              className="as-dl-btn px-10 py-4 text-lg sm:px-14 sm:py-4.5 sm:text-xl shadow-[0_12px_36px_rgba(245,158,11,0.6)]"
+              className="as-dl-btn as-btn-shimmer px-10 py-4 text-lg sm:px-14 sm:py-4.5 sm:text-xl shadow-[0_12px_36px_rgba(245,158,11,0.6)]"
             >
               <Download className="size-7 stroke-[3]" />
               <span>{t.downloadPage.btnDownload}</span>
@@ -134,7 +139,7 @@ export default function DownloadPage() {
         </section>
 
         {/* SYSTEM REQUIREMENTS SECTION */}
-        <section aria-label="System Requirements" className="mt-12 sm:mt-16">
+        <section aria-label="System Requirements" className="mt-12 sm:mt-16" data-motion="fade-up">
           {/* Section Ribbon Header */}
           <div className="flex justify-center">
             <div className="as-section-ribbon">
@@ -148,7 +153,7 @@ export default function DownloadPage() {
           </div>
 
           {/* 2 Side-by-Side Spec Cards */}
-          <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2" data-motion="stagger">
             {/* Minimum Specs - 3D Cyber Cyan Card */}
             <div className="as-spec-card-min p-5 sm:p-6 text-white">
               <div className="flex items-center gap-2.5">

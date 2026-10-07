@@ -90,7 +90,7 @@ export function AvatarStarNavbar({
     { key: "home", label: t.nav.home, href: "/#game", icon: Home },
     { key: "game", label: t.nav.game, href: "/#game", hasDropdown: true, icon: Gamepad2 },
     { key: "characters", label: t.nav.characters, href: "/#characters", icon: Users },
-    { key: "events", label: t.nav.events, href: "/#events", icon: Flame },
+    { key: "events", label: t.nav.events, href: "/events", icon: Flame },
     { key: "news", label: t.nav.news, href: "/#news", icon: Newspaper },
     { key: "community", label: t.nav.community, href: "/#community", icon: MessageSquare },
     { key: "download", label: t.nav.downloadNav, href: "/download", isDownloadPill: true, icon: Download },
@@ -103,7 +103,7 @@ export function AvatarStarNavbar({
         <div className="as-navbar-capsule pointer-events-auto min-h-[48px] sm:min-h-[64px] px-2 sm:px-3">
           {/* 1. Official Avatar Star Logo on the left pill end */}
           <Link
-            href="#game"
+            href="/#game"
             onClick={() => handleNavClick("home")}
             className="flex items-center pl-0.5 sm:pl-2 shrink-0 transition-transform hover:scale-105 active:scale-95"
             aria-label="Avatar Star Home"
@@ -176,7 +176,7 @@ export function AvatarStarNavbar({
                           <span>{t.nav.gameOverview}</span>
                         </Link>
                         <Link
-                          href="#characters"
+                          href="/#characters"
                           onClick={() => handleNavClick("characters")}
                           className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-bold text-white hover:bg-white/15 transition"
                         >
@@ -184,7 +184,7 @@ export function AvatarStarNavbar({
                           <span>{t.nav.gameModes}</span>
                         </Link>
                         <Link
-                          href="#characters"
+                          href="/#characters"
                           onClick={() => handleNavClick("characters")}
                           className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-bold text-white hover:bg-white/15 transition"
                         >

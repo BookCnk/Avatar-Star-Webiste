@@ -153,7 +153,7 @@ export function HallOfFame() {
         <div className="hall-of-fame-starlight" />
       </div>
 
-      <div className="hall-of-fame-content">
+      <div className="hall-of-fame-content" data-motion="fade-up">
         <header className="hall-of-fame-heading">
           <span className="hall-of-fame-eyebrow">
             <Sparkles aria-hidden="true" />
@@ -251,7 +251,7 @@ export function HallOfFame() {
                     aria-label={`Rank ${rank}`}
                   >
                     <div className="hall-of-fame-medal">
-                      {rank === 1 ? <Crown aria-hidden="true" /> : <Medal aria-hidden="true" />}
+                      {rank === 1 ? <Crown aria-hidden="true" className="as-motion-crown" /> : <Medal aria-hidden="true" />}
                       <span>{rank}</span>
                     </div>
                     <div className="hall-of-fame-avatar">

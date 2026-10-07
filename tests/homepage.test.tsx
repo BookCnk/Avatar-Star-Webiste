@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import HomePage from "../app/(site)/page";
+import DownloadPage from "../app/(site)/download/page";
 import { LanguageProvider } from "../lib/language-context";
 
 test("homepage exposes the primary game actions and content sections", () => {
@@ -34,6 +35,17 @@ test("homepage exposes the primary game actions and content sections", () => {
   assert.match(html, /href="\/download"/);
 });
 
+test("download page anchors the primary download action to its download section", () => {
+  const html = renderToStaticMarkup(
+    <LanguageProvider>
+      <DownloadPage />
+    </LanguageProvider>
+  );
+
+  assert.match(html, /href="#download"/);
+  assert.match(html, /id="download"/);
+});
+
 test("community section renders an interactive Hall of Fame leaderboard", () => {
   const html = renderToStaticMarkup(
     <LanguageProvider>
@@ -55,6 +67,16 @@ test("community section renders an interactive Hall of Fame leaderboard", () => 
   assert.match(html, /aria-label="Previous ranking category: คะแนนรวมสูงสุด"/);
   assert.match(html, /aria-label="Next ranking category: ชนะสูงสุด"/);
   assert.doesNotMatch(html, /Different avatars\. Same sky\./);
+});
+
+test("Hall of Fame uses the website glass-sky visual tokens", () => {
+  const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(css, /--hall-panel:\s*rgba\(232, 247, 255, 0\.88\)/);
+  assert.match(css, /--hall-accent:\s*#269fe8/);
+  assert.match(css, /--hall-accent-soft:\s*#73c8f5/);
+  assert.match(css, /background: color-mix\(in srgb, var\(--hall-panel\) 44%, transparent\)/);
+  assert.match(css, /var\(--hall-accent-soft\) 20%/);
 });
 
 test("Thai font is applied globally and remains the display-font fallback", () => {
