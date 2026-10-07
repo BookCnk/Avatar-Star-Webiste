@@ -34,6 +34,29 @@ test("homepage exposes the primary game actions and content sections", () => {
   assert.match(html, /href="\/download"/);
 });
 
+test("community section renders an interactive Hall of Fame leaderboard", () => {
+  const html = renderToStaticMarkup(
+    <LanguageProvider>
+      <HomePage />
+    </LanguageProvider>
+  );
+
+  assert.match(html, /<section[^>]*id="community"/);
+  assert.match(html, /HALL OF FAME/);
+  assert.match(html, /role="tablist"/);
+  assert.equal((html.match(/role="tab"/g) ?? []).length, 3);
+  assert.match(html, /aria-label="Rank 1"/);
+  assert.match(html, /aria-label="Ranks 4 to 10"/);
+  assert.match(html, /aria-label="Previous ranking category"/);
+  assert.match(html, /aria-label="Next ranking category"/);
+  assert.match(html, /data-ranking-card="previous"/);
+  assert.match(html, /data-ranking-card="next"/);
+  assert.match(html, /data-carousel-direction="next"/);
+  assert.match(html, /aria-label="Previous ranking category: คะแนนรวมสูงสุด"/);
+  assert.match(html, /aria-label="Next ranking category: ชนะสูงสุด"/);
+  assert.doesNotMatch(html, /Different avatars\. Same sky\./);
+});
+
 test("Thai font is applied globally and remains the display-font fallback", () => {
   const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
   const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
@@ -57,17 +80,15 @@ test("mobile menu does not add an opaque white highlight layer", () => {
   assert.match(css, /scrollbar-color:/);
 });
 
-test("mobile menu backdrop provides a cross-browser translucent blur", () => {
+test("mobile menu backdrop stays visible without over-darkening the page", () => {
   const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 
-  assert.match(css, /--as-nav-backdrop:\s*rgba\(3, 11, 29, 0\.68\)/);
+  assert.match(css, /--as-nav-backdrop:\s*rgba\(3, 11, 29, 0\.42\)/);
   assert.match(css, /background:\s*var\(--as-nav-backdrop\)/);
-  assert.match(css, /-webkit-backdrop-filter:\s*blur\(24px\) saturate\(1\.2\)/);
-  assert.match(css, /html\[data-mobile-menu-open="true"\]\s+main > :not\(header\)/);
-  assert.match(css, /filter:\s*blur\(8px\)/);
+  assert.match(css, /-webkit-backdrop-filter:\s*blur\(12px\) saturate\(1\.1\)/);
   assert.doesNotMatch(
     css,
-    /html\[data-mobile-menu-open="true"\]\s+main > :not\(header\)\s*\{[^}]*transition:\s*filter/,
+    /html\[data-mobile-menu-open="true"\]\s+main > :not\(header\)\s*\{[^}]*filter:\s*blur/,
   );
 });
 

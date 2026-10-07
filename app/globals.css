@@ -102,12 +102,37 @@
   --as-nav-to: #002787;
   --as-nav-border: rgba(115, 195, 255, 0.65);
   --as-nav-shadow: rgba(0, 30, 110, 0.55);
-  --as-nav-backdrop: rgba(3, 11, 29, 0.68);
+  --as-nav-backdrop: rgba(3, 11, 29, 0.42);
   --as-gold-from: #fff566;
   --as-gold-via: #ffc700;
   --as-gold-to: #fa8e00;
   --as-gold-border: rgba(255, 255, 255, 0.95);
   --as-gold-shadow: rgba(250, 140, 0, 0.6);
+
+  /* Hall of Fame leaderboard */
+  --hall-sky: #55c9f3;
+  --hall-sky-wash: rgba(96, 211, 255, 0.34);
+  --hall-cloud-wash: rgba(244, 252, 255, 0.48);
+  --hall-heading: #ffffff;
+  --hall-heading-shadow: rgba(0, 87, 159, 0.5);
+  --hall-panel: rgba(240, 249, 255, 0.94);
+  --hall-panel-muted: rgba(216, 239, 252, 0.88);
+  --hall-panel-border: rgba(255, 255, 255, 0.9);
+  --hall-panel-shadow: rgba(15, 100, 153, 0.3);
+  --hall-ink: #12365d;
+  --hall-muted: #577797;
+  --hall-accent: #ff9c2f;
+  --hall-accent-strong: #f47a20;
+  --hall-accent-soft: #ffc76c;
+  --hall-gold: #ffc928;
+  --hall-gold-deep: #dc8a00;
+  --hall-silver: #7bc6ef;
+  --hall-silver-deep: #397eae;
+  --hall-bronze: #ed8a62;
+  --hall-bronze-deep: #ad5136;
+  --hall-row: rgba(255, 255, 255, 0.72);
+  --hall-row-alt: rgba(208, 236, 252, 0.68);
+  --hall-focus: #fff566;
 
   /* Avatar Star Arcade Hero Action Buttons (Rich, Vibrant & Saturated) */
   --as-btn-gold-from: #ffd700;
@@ -903,11 +928,838 @@ html {
 .character-card-luna { color: color-mix(in srgb, var(--brand-violet) 80%, var(--game-foreground)); }
 .character-card-ryu { color: var(--info); }
 .character-card-kai { color: color-mix(in srgb, var(--highlight) 70%, var(--danger)); }
+.character-card-assassin { color: var(--brand-violet); }
+.character-card-gunner { color: var(--highlight); }
+.character-card-biochemist { color: var(--danger); }
+.character-card-guardian { color: var(--info); }
 .character-shade { background: linear-gradient(90deg, color-mix(in srgb, var(--game-deep) 94%, transparent) 0%, color-mix(in srgb, var(--game-deep) 60%, transparent) 42%, transparent 75%), linear-gradient(to top, color-mix(in srgb, var(--game-deep) 88%, transparent), transparent 62%); }
 .character-card h3, .character-card p, .character-card span { text-shadow: 0 2px 9px var(--game-deep); }
 .character-card .badge { color: var(--game-foreground); text-shadow: none; }
 .character-card .ability { color: currentColor; }
 .footer-scene-shade { background: linear-gradient(to bottom, color-mix(in srgb, var(--game) 10%, transparent), color-mix(in srgb, var(--game-deep) 32%, transparent)); }
+
+/* ============================================================
+   Hall of Fame leaderboard
+   ============================================================ */
+.hall-of-fame {
+  position: relative;
+  isolation: isolate;
+  min-height: 52rem;
+  overflow: hidden;
+  padding: 5rem 1rem 6rem;
+  background: var(--hall-sky);
+  color: var(--hall-ink);
+}
+
+.hall-of-fame-background,
+.hall-of-fame-background > img,
+.hall-of-fame-skywash,
+.hall-of-fame-starlight {
+  position: absolute;
+  inset: 0;
+}
+
+.hall-of-fame-background {
+  z-index: -1;
+}
+
+.hall-of-fame-background > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hall-of-fame-background-desktop {
+  display: none;
+}
+
+.hall-of-fame-background-mobile {
+  display: block;
+}
+
+.hall-of-fame-skywash {
+  background:
+    linear-gradient(
+      180deg,
+      var(--game-deep) 0,
+      color-mix(in srgb, var(--game-deep) 72%, transparent) 2.5rem,
+      color-mix(in srgb, var(--game-deep) 32%, transparent) 5rem,
+      transparent 8rem
+    ),
+    linear-gradient(180deg, var(--hall-sky-wash), transparent 42%),
+    linear-gradient(0deg, var(--hall-cloud-wash), transparent 38%);
+}
+
+.hall-of-fame-starlight {
+  opacity: 0.72;
+  background-image:
+    radial-gradient(circle at 12% 16%, var(--hall-heading) 0 2px, transparent 3px),
+    radial-gradient(circle at 76% 11%, var(--hall-heading) 0 3px, transparent 4px),
+    radial-gradient(circle at 89% 28%, var(--hall-heading) 0 2px, transparent 3px),
+    radial-gradient(circle at 26% 31%, var(--hall-heading) 0 2px, transparent 3px),
+    radial-gradient(circle at 58% 23%, var(--hall-heading) 0 1px, transparent 2px);
+}
+
+.hall-of-fame-content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 76rem);
+  margin-inline: auto;
+}
+
+.hall-of-fame-heading {
+  text-align: center;
+  color: var(--hall-heading);
+}
+
+.hall-of-fame-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.38rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--hall-heading) 55%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--hall-sky) 68%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hall-heading) 55%, transparent);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.hall-of-fame-eyebrow svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--hall-focus);
+}
+
+.hall-of-fame-heading h2 {
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 9vw, 5.25rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: 0.035em;
+  text-shadow:
+    0 4px 0 color-mix(in srgb, var(--hall-heading-shadow) 55%, transparent),
+    0 9px 24px var(--hall-heading-shadow);
+}
+
+.hall-of-fame-heading p {
+  margin-top: 0.6rem;
+  font-size: clamp(0.75rem, 2vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  text-shadow: 0 2px 8px var(--hall-heading-shadow);
+}
+
+.hall-of-fame-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 42rem);
+  margin: 1.75rem auto 0;
+  padding: 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--hall-heading) 78%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--hall-panel) 62%, transparent);
+  box-shadow: 0 10px 28px var(--hall-panel-shadow), inset 0 1px 0 var(--hall-heading);
+  backdrop-filter: blur(14px);
+}
+
+.hall-of-fame-tabs button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.45rem;
+  border-radius: 0.72rem;
+  color: var(--hall-muted);
+  font-size: clamp(0.65rem, 2.7vw, 0.82rem);
+  font-weight: 900;
+  line-height: 1.15;
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.hall-of-fame-tabs button svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.hall-of-fame-tabs button:hover,
+.hall-of-fame-tabs button:focus-visible {
+  color: var(--hall-accent-strong);
+  transform: translateY(-1px);
+}
+
+.hall-of-fame-tabs button[data-active="true"] {
+  background: linear-gradient(180deg, var(--hall-accent-soft), var(--hall-accent));
+  box-shadow:
+    inset 0 1px 0 var(--hall-heading),
+    0 5px 12px color-mix(in srgb, var(--hall-accent-strong) 42%, transparent);
+  color: var(--hall-heading);
+  text-shadow: 0 1px 2px var(--hall-accent-strong);
+}
+
+.hall-of-fame-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.hall-of-fame-carousel-control {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--hall-panel-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--hall-panel) 88%, transparent);
+  box-shadow:
+    0 8px 20px var(--hall-panel-shadow),
+    inset 0 1px 0 var(--hall-heading);
+  color: var(--hall-accent-strong);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+  backdrop-filter: blur(12px);
+}
+
+.hall-of-fame-carousel-control svg {
+  width: 1.45rem;
+  height: 1.45rem;
+  stroke-width: 3;
+}
+
+.hall-of-fame-carousel-control-previous {
+  left: 0.45rem;
+}
+
+.hall-of-fame-carousel-control-next {
+  right: 0.45rem;
+}
+
+.hall-of-fame-carousel-control:hover,
+.hall-of-fame-carousel-control:focus-visible {
+  background: var(--hall-accent);
+  box-shadow:
+    0 10px 24px var(--hall-panel-shadow),
+    inset 0 1px 0 var(--hall-heading);
+  color: var(--hall-heading);
+  outline: none;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.hall-of-fame-board {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 42rem);
+  overflow: hidden;
+  border: 2px solid var(--hall-panel-border);
+  border-radius: 1.45rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--hall-accent-soft) 50%, var(--hall-panel)) 0%, var(--hall-panel) 31%, var(--hall-panel-muted) 100%);
+  box-shadow:
+    0 26px 56px var(--hall-panel-shadow),
+    inset 0 1px 0 var(--hall-heading);
+}
+
+.hall-of-fame-board[data-slide-direction="next"] {
+  animation: hall-of-fame-slide-from-right 520ms cubic-bezier(0.16, 0.84, 0.2, 1);
+}
+
+.hall-of-fame-board[data-slide-direction="previous"] {
+  animation: hall-of-fame-slide-from-left 520ms cubic-bezier(0.16, 0.84, 0.2, 1);
+}
+
+@keyframes hall-of-fame-slide-from-right {
+  from {
+    opacity: 0;
+    filter: blur(5px) brightness(1.3);
+    transform: translateX(8rem) scale(0.8) rotate(2deg);
+  }
+
+  68% {
+    opacity: 1;
+    filter: blur(0) brightness(1.08);
+    transform: translateX(-0.7rem) scale(1.025) rotate(-0.25deg);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+    transform: translateX(0) scale(1) rotate(0);
+  }
+}
+
+@keyframes hall-of-fame-slide-from-left {
+  from {
+    opacity: 0;
+    filter: blur(5px) brightness(1.3);
+    transform: translateX(-8rem) scale(0.8) rotate(-2deg);
+  }
+
+  68% {
+    opacity: 1;
+    filter: blur(0) brightness(1.08);
+    transform: translateX(0.7rem) scale(1.025) rotate(0.25deg);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+    transform: translateX(0) scale(1) rotate(0);
+  }
+}
+
+.hall-of-fame-ribbon {
+  display: flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(180deg, var(--hall-accent-soft), var(--hall-accent));
+  box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--hall-accent-strong) 64%, transparent);
+  color: var(--hall-heading);
+  font-size: clamp(0.9rem, 3.4vw, 1.08rem);
+  font-weight: 950;
+  text-shadow: 0 2px 2px var(--hall-accent-strong);
+}
+
+.hall-of-fame-ribbon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--hall-focus);
+}
+
+.hall-of-fame-ribbon svg:last-child {
+  transform: scaleX(-1);
+}
+
+.hall-of-fame-board-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem 0;
+  color: var(--hall-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.hall-of-fame-board-meta strong {
+  color: var(--hall-accent-strong);
+}
+
+.hall-of-fame-podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.45rem;
+  padding: 1rem 0.75rem 0;
+}
+
+.hall-of-fame-finalist {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hall-of-fame-finalist[data-rank="1"] {
+  order: 2;
+}
+
+.hall-of-fame-finalist[data-rank="2"] {
+  order: 1;
+}
+
+.hall-of-fame-finalist[data-rank="3"] {
+  order: 3;
+}
+
+.hall-of-fame-medal {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 2.65rem;
+  height: 2.65rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -0.75rem;
+  border: 2px solid var(--hall-heading);
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--hall-silver), var(--hall-silver-deep));
+  box-shadow: 0 5px 12px color-mix(in srgb, var(--hall-silver-deep) 48%, transparent);
+  color: var(--hall-heading);
+}
+
+.hall-of-fame-medal svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.hall-of-fame-medal span {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.hall-of-fame-finalist[data-rank="1"] .hall-of-fame-medal {
+  width: 3.3rem;
+  height: 3.3rem;
+  background: linear-gradient(145deg, var(--hall-focus), var(--hall-gold-deep));
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--hall-gold-deep) 56%, transparent);
+}
+
+.hall-of-fame-finalist[data-rank="1"] .hall-of-fame-medal svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.hall-of-fame-finalist[data-rank="3"] .hall-of-fame-medal {
+  background: linear-gradient(145deg, var(--hall-bronze), var(--hall-bronze-deep));
+  box-shadow: 0 5px 12px color-mix(in srgb, var(--hall-bronze-deep) 48%, transparent);
+}
+
+.hall-of-fame-avatar {
+  position: relative;
+  width: 4.6rem;
+  height: 4.6rem;
+  overflow: hidden;
+  border: 3px solid var(--hall-heading);
+  border-radius: 50%;
+  background: var(--hall-panel-muted);
+  box-shadow: 0 7px 16px var(--hall-panel-shadow);
+}
+
+.hall-of-fame-finalist[data-rank="1"] .hall-of-fame-avatar {
+  width: 5.8rem;
+  height: 5.8rem;
+  border-color: var(--hall-focus);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--hall-gold-deep) 42%, transparent);
+}
+
+.hall-of-fame-avatar-image {
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+
+.hall-of-fame-finalist > strong {
+  max-width: 100%;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  color: var(--hall-ink);
+  font-size: clamp(0.7rem, 3vw, 0.9rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hall-of-fame-score {
+  margin-top: 0.18rem;
+  color: var(--hall-accent-strong);
+  font-size: clamp(0.58rem, 2.4vw, 0.72rem);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.hall-of-fame-pedestal {
+  display: flex;
+  width: 100%;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.65rem;
+  border-radius: 1.1rem 1.1rem 0 0;
+  background: linear-gradient(180deg, var(--hall-silver), var(--hall-silver-deep));
+  box-shadow: inset 0 4px 0 color-mix(in srgb, var(--hall-heading) 48%, transparent);
+  color: color-mix(in srgb, var(--hall-heading) 74%, transparent);
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 900;
+}
+
+.hall-of-fame-finalist[data-rank="1"] .hall-of-fame-pedestal {
+  min-height: 4.75rem;
+  background: linear-gradient(180deg, var(--hall-gold), var(--hall-gold-deep));
+}
+
+.hall-of-fame-finalist[data-rank="3"] .hall-of-fame-pedestal {
+  min-height: 2.6rem;
+  background: linear-gradient(180deg, var(--hall-bronze), var(--hall-bronze-deep));
+}
+
+.hall-of-fame-list {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.55rem 0.65rem 0.75rem;
+  list-style: none;
+}
+
+.hall-of-fame-list li {
+  display: grid;
+  grid-template-columns: 2rem 2rem minmax(0, 1fr) auto;
+  min-height: 2.35rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--hall-silver) 38%, transparent);
+  border-radius: 0.8rem;
+  background: var(--hall-row);
+  color: var(--hall-ink);
+  font-size: 0.72rem;
+}
+
+.hall-of-fame-list li:nth-child(even) {
+  background: var(--hall-row-alt);
+}
+
+.hall-of-fame-list-rank {
+  display: inline-flex;
+  min-width: 1.75rem;
+  min-height: 1.45rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--hall-accent);
+  color: var(--hall-heading);
+  font-weight: 950;
+}
+
+.hall-of-fame-list-avatar {
+  position: relative;
+  width: 1.8rem;
+  height: 1.8rem;
+  overflow: hidden;
+  border: 1px solid var(--hall-panel-border);
+  border-radius: 50%;
+  background: var(--hall-panel-muted);
+}
+
+.hall-of-fame-list strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hall-of-fame-list li > span:last-child {
+  color: var(--hall-accent-strong);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.hall-of-fame-ghost {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .hall-of-fame {
+    min-height: 58rem;
+    padding: 5.5rem 1.5rem 7rem;
+  }
+
+  .hall-of-fame-background-desktop {
+    display: block;
+  }
+
+  .hall-of-fame-background-mobile {
+    display: none;
+  }
+
+  .hall-of-fame-tabs button {
+    gap: 0.55rem;
+    padding-inline: 0.8rem;
+  }
+
+  .hall-of-fame-podium {
+    gap: 1rem;
+    padding-inline: 1.5rem;
+  }
+
+  .hall-of-fame-avatar {
+    width: 5.6rem;
+    height: 5.6rem;
+  }
+
+  .hall-of-fame-finalist[data-rank="1"] .hall-of-fame-avatar {
+    width: 7rem;
+    height: 7rem;
+  }
+
+  .hall-of-fame-pedestal {
+    min-height: 4rem;
+  }
+
+  .hall-of-fame-finalist[data-rank="1"] .hall-of-fame-pedestal {
+    min-height: 6rem;
+  }
+
+  .hall-of-fame-finalist[data-rank="3"] .hall-of-fame-pedestal {
+    min-height: 3.5rem;
+  }
+
+  .hall-of-fame-list {
+    padding: 0.75rem 1rem 1rem;
+  }
+
+  .hall-of-fame-list li {
+    grid-template-columns: 2.3rem 2.25rem minmax(0, 1fr) auto;
+    padding-inline: 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hall-of-fame {
+    min-height: 61rem;
+    padding-top: 6rem;
+  }
+
+  .hall-of-fame-stage {
+    margin-top: 1.25rem;
+  }
+
+  .hall-of-fame-carousel-control {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .hall-of-fame-carousel-control-previous {
+    left: max(0.5rem, calc(50% - 25rem));
+  }
+
+  .hall-of-fame-carousel-control-next {
+    right: max(0.5rem, calc(50% - 25rem));
+  }
+
+  .hall-of-fame-ghost {
+    position: absolute;
+    top: 4.25rem;
+    z-index: 0;
+    display: grid;
+    width: 31rem;
+    grid-template-rows: auto auto 1fr;
+    gap: 0.65rem;
+    padding: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--hall-panel-border) 56%, transparent);
+    border-radius: 1.25rem;
+    background: color-mix(in srgb, var(--hall-ink) 58%, transparent);
+    box-shadow: 0 22px 45px var(--hall-panel-shadow);
+    opacity: 0.42;
+    transition: transform 520ms cubic-bezier(0.16, 0.84, 0.2, 1), opacity 360ms ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .hall-of-fame-ghost-previous {
+    left: 1.2rem;
+    transform: translateX(-31%) rotate(-1deg);
+  }
+
+  .hall-of-fame-ghost-next {
+    right: 1.2rem;
+    transform: translateX(31%) rotate(1deg);
+  }
+
+  .hall-of-fame-stage[data-carousel-direction="next"] .hall-of-fame-ghost-previous {
+    animation: hall-of-fame-ghost-exit-left 480ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .hall-of-fame-stage[data-carousel-direction="next"] .hall-of-fame-ghost-next {
+    animation: hall-of-fame-ghost-arrive-right 520ms cubic-bezier(0.16, 0.84, 0.2, 1);
+  }
+
+  .hall-of-fame-stage[data-carousel-direction="previous"] .hall-of-fame-ghost-next {
+    animation: hall-of-fame-ghost-exit-right 480ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .hall-of-fame-stage[data-carousel-direction="previous"] .hall-of-fame-ghost-previous {
+    animation: hall-of-fame-ghost-arrive-left 520ms cubic-bezier(0.16, 0.84, 0.2, 1);
+  }
+
+  @keyframes hall-of-fame-ghost-exit-left {
+    from { opacity: 0.55; transform: translateX(-22%) scale(0.92) rotate(-1deg); }
+    to { opacity: 0; transform: translateX(-55%) scale(0.72) rotate(-3deg); }
+  }
+
+  @keyframes hall-of-fame-ghost-arrive-right {
+    from { opacity: 0; transform: translateX(62%) scale(0.72) rotate(3deg); }
+    to { opacity: 0.42; transform: translateX(31%) scale(1) rotate(1deg); }
+  }
+
+  @keyframes hall-of-fame-ghost-exit-right {
+    from { opacity: 0.55; transform: translateX(22%) scale(0.92) rotate(1deg); }
+    to { opacity: 0; transform: translateX(55%) scale(0.72) rotate(3deg); }
+  }
+
+  @keyframes hall-of-fame-ghost-arrive-left {
+    from { opacity: 0; transform: translateX(-62%) scale(0.72) rotate(-3deg); }
+    to { opacity: 0.42; transform: translateX(-31%) scale(1) rotate(-1deg); }
+  }
+
+  .hall-of-fame-ghost > span {
+    color: var(--hall-heading);
+    font-size: 0.82rem;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .hall-of-fame-preview-leader {
+    display: grid;
+    grid-template-columns: 2rem 3rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 3.75rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--hall-panel) 32%, transparent);
+  }
+
+  .hall-of-fame-preview-rank {
+    display: inline-flex;
+    width: 1.8rem;
+    height: 1.8rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--hall-accent);
+    color: var(--hall-heading);
+    font-family: var(--font-display);
+    font-weight: 900;
+  }
+
+  .hall-of-fame-preview-avatar {
+    position: relative;
+    width: 2.75rem;
+    height: 2.75rem;
+    overflow: hidden;
+    border: 2px solid var(--hall-focus);
+    border-radius: 50%;
+  }
+
+  .hall-of-fame-preview-leader strong,
+  .hall-of-fame-preview-list strong {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--hall-heading);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hall-of-fame-preview-leader em,
+  .hall-of-fame-preview-list em {
+    color: var(--hall-focus);
+    font-size: 0.72rem;
+    font-style: normal;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .hall-of-fame-preview-list {
+    display: grid;
+    gap: 0.38rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hall-of-fame-preview-list li {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.25rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.65rem;
+    background: color-mix(in srgb, var(--hall-panel) 22%, transparent);
+  }
+
+  .hall-of-fame-preview-list li > span {
+    color: var(--hall-accent-soft);
+    font-weight: 950;
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   Character Showcase Slider Styles
+   ============================================================ */
+.as-char-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.15rem;
+  border-radius: 9999px;
+  border: 1.5px solid color-mix(in srgb, var(--game-foreground) 12%, transparent);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: color-mix(in srgb, var(--game-deep) 85%, transparent);
+  color: var(--game-muted);
+  backdrop-filter: blur(8px);
+}
+.as-char-tab:hover {
+  color: #fff;
+  border-color: color-mix(in srgb, var(--game-foreground) 35%, transparent);
+  transform: translateY(-2px);
+}
+.as-char-tab-active-assassin {
+  background: color-mix(in srgb, var(--brand-violet) 28%, var(--game-deep));
+  border-color: var(--brand-violet);
+  color: #fff;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--brand-violet) 55%, transparent);
+}
+.as-char-tab-active-gunner {
+  background: color-mix(in srgb, var(--highlight) 28%, var(--game-deep));
+  border-color: var(--highlight);
+  color: #fff;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--highlight) 55%, transparent);
+}
+.as-char-tab-active-biochemist {
+  background: color-mix(in srgb, var(--danger) 28%, var(--game-deep));
+  border-color: var(--danger);
+  color: #fff;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--danger) 55%, transparent);
+}
+.as-char-tab-active-guardian {
+  background: color-mix(in srgb, var(--info) 28%, var(--game-deep));
+  border-color: var(--info);
+  color: #fff;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--info) 55%, transparent);
+}
+
+.as-slide-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 2px solid color-mix(in srgb, var(--info) 60%, transparent);
+  background: color-mix(in srgb, var(--game-deep) 90%, transparent);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px color-mix(in srgb, var(--info) 30%, transparent);
+  transition: all 0.2s ease;
+}
+.as-slide-arrow:hover {
+  transform: scale(1.1);
+  border-color: var(--info);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.7), 0 0 25px color-mix(in srgb, var(--info) 60%, transparent);
+}
+.as-slide-arrow:active {
+  transform: scale(0.95);
+}
 
 /* ============================================================
    Avatar Star Download Page Styles
@@ -1227,8 +2079,8 @@ html {
   inset: 0;
   pointer-events: auto;
   background: var(--as-nav-backdrop);
-  backdrop-filter: blur(24px) saturate(1.2);
-  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
   opacity: 1;
   transition: opacity 220ms ease;
 }
@@ -1239,11 +2091,6 @@ html {
 }
 
 .mobile-menu-backdrop[data-state="closed"] { opacity: 0; }
-
-/* Fallback for browsers that do not composite backdrop-filter across fixed layers. */
-html[data-mobile-menu-open="true"] main > :not(header) {
-  filter: blur(8px);
-}
 
 .mobile-menu-panel {
   position: fixed;

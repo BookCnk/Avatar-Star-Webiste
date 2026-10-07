@@ -6,8 +6,10 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarDays,
+  ChevronLeft,
   ChevronRight,
   ClipboardCheck,
+  Crosshair,
   Download,
   Gamepad2,
   Globe2,
@@ -17,6 +19,7 @@ import {
   Search,
   Shield,
   Skull,
+  Sparkles,
   Star,
   Swords,
   Trophy,
@@ -32,11 +35,115 @@ import {
 import { useLanguage } from "@/lib/language-context";
 import { AvatarStarNavbar } from "@/components/avatar-star-navbar";
 import { AvatarStarFooter } from "@/components/avatar-star-footer";
+import { HallOfFame } from "@/components/hall-of-fame";
 
 export default function HomePage() {
   const { lang, setLang, t } = useLanguage();
   const [activeNav, setActiveNav] = useState("home");
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [activeCharIndex, setActiveCharIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+
+  const characterClasses = [
+    {
+      id: "assassin",
+      name: t.characters.assassin?.name || "Assassin",
+      role: t.characters.assassin?.role || "Stealth & Melee",
+      line: t.characters.assassin?.line || "Shadow speed, lethal strikes.",
+      desc: t.characters.assassin?.desc || "Master of covert infiltration and rapid dual-blade execution.",
+      playstyle: t.characters.assassin?.playstyle || "High mobility, deadly burst damage from behind enemy lines.",
+      image: "/images/characters/assassin.png",
+      titleImage: "/images/characters/title-assassin.png",
+      tone: "character-card-assassin",
+      tabActive: "as-char-tab-active-assassin",
+      accentGradient: "from-purple-900/40 via-fuchsia-950/20 to-transparent",
+      accentBorder: "border-purple-500/70 shadow-[0_0_35px_rgba(168,85,247,0.35)]",
+      badgeColor: "bg-purple-950/90 border-purple-500/60 text-purple-200",
+      barColor: "bg-purple-500 shadow-[0_0_12px_#a855f7]",
+      stats: [
+        { label: t.characters.stats.attack, percent: "95%" },
+        { label: t.characters.stats.defense, percent: "48%" },
+        { label: t.characters.stats.mobility, percent: "98%" },
+      ],
+      weapons: lang === "th" ? ["มีดโค้งสังหารคู่", "ระเบิดควันพรางตัว", "เคียวความมืด"] : ["Dual Curved Scythes", "Smoke Cloak", "Shadow Daggers"],
+    },
+    {
+      id: "gunner",
+      name: t.characters.gunner?.name || "Gunner",
+      role: t.characters.gunner?.role || "Heavy Firepower",
+      line: t.characters.gunner?.line || "Maximum ammo, explosive beats.",
+      desc: t.characters.gunner?.desc || "Lays down devastating suppression fire with heavy gatling weaponry.",
+      playstyle: t.characters.gunner?.playstyle || "Sustained suppressive fire and frontline demolition power.",
+      image: "/images/characters/gunner.png",
+      titleImage: "/images/characters/title-gunner.png",
+      tone: "character-card-gunner",
+      tabActive: "as-char-tab-active-gunner",
+      accentGradient: "from-amber-900/40 via-orange-950/20 to-transparent",
+      accentBorder: "border-amber-500/70 shadow-[0_0_35px_rgba(245,158,11,0.35)]",
+      badgeColor: "bg-amber-950/90 border-amber-500/60 text-amber-200",
+      barColor: "bg-amber-400 shadow-[0_0_12px_#f59e0b]",
+      stats: [
+        { label: t.characters.stats.attack, percent: "92%" },
+        { label: t.characters.stats.defense, percent: "78%" },
+        { label: t.characters.stats.mobility, percent: "58%" },
+      ],
+      weapons: lang === "th" ? ["ปืนกลกิตาร์เฮฟวี่", "กระสุนระเบิดแรงสูง", "จรวดนำวิถี"] : ["Gatling Guitar", "High-Caliber Shells", "Rocket Pods"],
+    },
+    {
+      id: "biochemist",
+      name: t.characters.biochemist?.name || "Biochemist",
+      role: t.characters.biochemist?.role || "Toxic Hazard",
+      line: t.characters.biochemist?.line || "Corrosive chemicals, tactical control.",
+      desc: t.characters.biochemist?.desc || "Dominates the zone with hazardous chemical compounds and debuffs.",
+      playstyle: t.characters.biochemist?.playstyle || "Area denial, corrosive damage-over-time, and combat disruption.",
+      image: "/images/characters/biochemist.png",
+      titleImage: "/images/characters/title-biochemist.png",
+      tone: "character-card-biochemist",
+      tabActive: "as-char-tab-active-biochemist",
+      accentGradient: "from-rose-900/40 via-red-950/20 to-transparent",
+      accentBorder: "border-rose-500/70 shadow-[0_0_35px_rgba(244,63,94,0.35)]",
+      badgeColor: "bg-rose-950/90 border-rose-500/60 text-rose-200",
+      barColor: "bg-rose-500 shadow-[0_0_12px_#f43f5e]",
+      stats: [
+        { label: t.characters.stats.attack, percent: "86%" },
+        { label: t.characters.stats.defense, percent: "72%" },
+        { label: t.characters.stats.mobility, percent: "70%" },
+      ],
+      weapons: lang === "th" ? ["ปืนยิงสารชีวเคมี", "กระบอกก๊าซพิษกัดกร่อน", "ระเบิดมลพิษวงกว้าง"] : ["Bio-Chemical Cannon", "Toxic Canisters", "Corrosive Sprayer"],
+    },
+    {
+      id: "guardian",
+      name: t.characters.guardian?.name || "Guardian",
+      role: t.characters.guardian?.role || "Shield & Support",
+      line: t.characters.guardian?.line || "Healing light, energy barrier.",
+      desc: t.characters.guardian?.desc || "Deploys impenetrable force fields and delivers vital restorative aids.",
+      playstyle: t.characters.guardian?.playstyle || "Team defense, emergency healing, and tactical frontline anchor.",
+      image: "/images/characters/guardian.png",
+      titleImage: "/images/characters/title-guardian.png",
+      tone: "character-card-guardian",
+      tabActive: "as-char-tab-active-guardian",
+      accentGradient: "from-sky-900/40 via-cyan-950/20 to-transparent",
+      accentBorder: "border-sky-500/70 shadow-[0_0_35px_rgba(14,165,233,0.35)]",
+      badgeColor: "bg-sky-950/90 border-sky-500/60 text-sky-200",
+      barColor: "bg-sky-400 shadow-[0_0_12px_#38bdf8]",
+      stats: [
+        { label: t.characters.stats.attack, percent: "68%" },
+        { label: t.characters.stats.defense, percent: "96%" },
+        { label: t.characters.stats.mobility, percent: "74%" },
+      ],
+      weapons: lang === "th" ? ["หน้าไม้ยิงพัลส์ฟื้นฟู", "โล่พลังงานบริสุทธิ์", "แอมพูลนาโนรักษา"] : ["Medical Pulse Crossbow", "Energy Barrier", "Nano-Healing Cells"],
+    },
+  ];
+
+  const activeChar = characterClasses[activeCharIndex];
+
+  const handleNextChar = () => {
+    setActiveCharIndex((prev) => (prev + 1) % characterClasses.length);
+  };
+
+  const handlePrevChar = () => {
+    setActiveCharIndex((prev) => (prev - 1 + characterClasses.length) % characterClasses.length);
+  };
 
   const navigationItems = [
     { key: "home", label: t.nav.home, href: "#game" },
@@ -281,19 +388,24 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-highlight text-ink shadow-[0_0_20px_rgba(255,213,28,0.5)] sm:size-14">
-                <Star className="size-7 fill-current" />
-              </span>
-              <h2 className="font-display text-3xl uppercase leading-none tracking-tight text-white drop-shadow-md sm:text-5xl">
-                {t.events.title} <span className="text-highlight">{t.events.accent}</span>
+          {/* 3D Events & News Header Graphic - Centered */}
+          <div className="relative flex flex-col items-center justify-center pb-4 sm:pb-6">
+            <div className="relative group cursor-pointer transition-transform duration-300 hover:scale-105">
+              <h2 className="sr-only">
+                {t.events.title} {t.events.accent} - {t.events.subtitle}
               </h2>
+              {/* Radiant cyan/blue glow behind 3D artwork */}
+              <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/25 via-cyan-400/30 to-amber-400/20 blur-2xl opacity-60 group-hover:opacity-100 transition duration-500 pointer-events-none" />
+              <Image
+                src="/images/event/title.png"
+                alt="กิจกรรมและข่าวสาร Avatar Star"
+                width={720}
+                height={264}
+                priority
+                className="relative z-10 h-28 sm:h-36 md:h-44 lg:h-48 w-auto max-w-[95vw] object-contain drop-shadow-[0_14px_36px_rgba(0,0,0,0.85)] filter"
+              />
             </div>
           </div>
-          <p className="mt-3 text-xs uppercase tracking-wider text-sky-200/90 sm:ml-[70px]">
-            {t.events.subtitle}
-          </p>
 
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
             {/* Feature Card */}
@@ -375,8 +487,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CHARACTERS SECTION */}
-      <section id="characters" className="relative overflow-hidden pt-2 sm:pt-4 lg:pt-6 pb-14 sm:pb-20 lg:pb-24 border-t border-game-border/60">
+      {/* CHARACTERS SECTION WITH GAME SLIDEBAR */}
+      <section
+        id="characters"
+        aria-label="Character Classes Roster"
+        className="relative overflow-hidden pt-2 sm:pt-4 lg:pt-6 pb-14 sm:pb-20 lg:pb-24 border-t border-game-border/60"
+        onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
+        onTouchEnd={(e) => {
+          if (touchStart === null) return;
+          const diff = touchStart - e.changedTouches[0].clientX;
+          if (diff > 50) handleNextChar();
+          if (diff < -50) handlePrevChar();
+          setTouchStart(null);
+        }}
+      >
         {/* Background Artwork: characters/bg.png */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -393,14 +517,13 @@ export default function HomePage() {
 
         <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
           {/* Header Area with Centered Extra-Large 3D Graphic */}
-          <div className="relative flex flex-col items-center justify-center pt-1 pb-4 sm:pb-6">
+          <div className="relative flex flex-col items-center justify-center pt-1 pb-2">
             <h2 className="sr-only">
               {t.characters.title} - {t.characters.subtitle}
             </h2>
 
             {/* Giant Centered 3D Typography Graphic */}
             <div className="relative group cursor-pointer transition-transform duration-300 hover:scale-105">
-              {/* Radiant glow behind 3D artwork */}
               <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/20 via-sky-400/30 to-amber-400/20 blur-2xl opacity-60 group-hover:opacity-100 transition duration-500 pointer-events-none" />
               <Image
                 src="/images/characters/text.png"
@@ -415,7 +538,7 @@ export default function HomePage() {
             {/* View All Button */}
             <div className="mt-3 sm:mt-0 sm:absolute sm:right-0 sm:top-2 md:top-4 z-20">
               <Link
-                href="#characters"
+                href="/download"
                 className="inline-flex items-center gap-2 rounded-xl border border-info/60 bg-game-deep/70 px-4 py-2 text-xs sm:text-sm font-bold text-info hover:bg-info/20 hover:border-info shadow-[0_4px_16px_rgba(16,174,242,0.25)] backdrop-blur-md transition-all"
               >
                 <span>{t.characters.viewAll}</span>
@@ -424,86 +547,230 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
-            {characters.map((character) => (
-              <article key={character.name} className={`character-card ${character.tone}`}>
-                <Image
-                  src="/images/backgrounds/hero.png"
-                  alt={`${character.name}, ${character.role} class hero`}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, 100vw"
-                  className="object-cover"
-                  style={{ objectPosition: `${character.position} center` }}
-                />
-                <div className="character-shade absolute inset-0" />
-                <div className="relative z-10 flex h-full flex-col p-6">
-                  <h3 className="font-display text-5xl uppercase leading-none text-white">
-                    {character.name}
-                  </h3>
-                  <span className="badge mt-2 w-fit">{character.role}</span>
-                  <p className="mt-3 max-w-44 font-display text-lg uppercase leading-tight text-white">
-                    {character.line}
-                  </p>
+          {/* 1. INTERACTIVE CLASS SELECTOR TABS (SLIDEBAR TABS) */}
+          <div className="my-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            {characterClasses.map((char, index) => {
+              const isActive = activeCharIndex === index;
+              return (
+                <button
+                  key={char.id}
+                  type="button"
+                  onClick={() => setActiveCharIndex(index)}
+                  className={`as-char-tab ${isActive ? char.tabActive : ""}`}
+                >
+                  <span className="text-sm">
+                    {index === 0 && "🗡️"}
+                    {index === 1 && "💥"}
+                    {index === 2 && "☣️"}
+                    {index === 3 && "🛡️"}
+                  </span>
+                  <span>{char.name}</span>
+                </button>
+              );
+            })}
+          </div>
 
-                  <div className="mt-auto space-y-2 pt-28 text-[10px] font-extrabold uppercase">
-                    {[t.characters.stats.attack, t.characters.stats.defense, t.characters.stats.mobility].map(
-                      (stat, index) => (
-                        <div key={stat} className="grid grid-cols-[70px_1fr] items-center gap-2">
-                          <span className="text-white">{stat}</span>
-                          <span className="h-2 rounded-full bg-black/60 p-0.5 border border-white/10">
-                            <span
-                              className="block h-full rounded-full bg-current shadow-[0_0_8px_currentColor]"
-                              style={{ width: character.stats[index] }}
-                            />
-                          </span>
-                        </div>
-                      )
-                    )}
+          {/* 2. MAIN CHARACTER SHOWCASE SLIDER */}
+          <div className="relative mt-4 sm:mt-6 rounded-3xl border border-game-border/80 bg-game-deep/70 p-4 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-md">
+            {/* Ambient Backlight for Active Class */}
+            <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${activeChar.accentGradient} pointer-events-none transition-colors duration-500`} />
+
+            <div className="relative z-10 grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+              {/* Left Column: Interactive Poster Slide with Next/Prev Arrow Controls */}
+              <div className="flex flex-col items-center lg:col-span-5 xl:col-span-5">
+                <div className="relative flex w-full max-w-[340px] sm:max-w-[400px] items-center justify-center">
+                  {/* Previous Arrow Button */}
+                  <button
+                    type="button"
+                    onClick={handlePrevChar}
+                    aria-label="Previous Character"
+                    className="as-slide-arrow absolute -left-3 sm:-left-6 z-30 size-11 sm:size-14"
+                  >
+                    <ChevronLeft className="size-6 sm:size-7" />
+                  </button>
+
+                  {/* Character Poster Card */}
+                  <div className={`relative w-full aspect-[4/5] overflow-hidden rounded-2xl border-2 ${activeChar.accentBorder} bg-black/40 transition-all duration-500`}>
+                    <Image
+                      key={activeChar.id}
+                      src={activeChar.image}
+                      alt={`${activeChar.name} - ${activeChar.role}`}
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 400px, 90vw"
+                      className="object-cover object-center transition-transform duration-700 hover:scale-105"
+                    />
+
+                    {/* Class Index Watermark badge */}
+                    <div className="absolute top-4 left-4 z-20">
+                      <span className="font-display text-xs sm:text-sm tracking-wider uppercase px-3 py-1 rounded-full bg-black/70 border border-white/20 text-white backdrop-blur-md">
+                        CLASS 0{activeCharIndex + 1} / 04
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="mt-5 flex gap-2">
-                    <span className="ability"><Swords className="size-5" /></span>
-                    <span className="ability"><Shield className="size-5" /></span>
-                    <span className="ability"><Zap className="size-5" /></span>
+                  {/* Next Arrow Button */}
+                  <button
+                    type="button"
+                    onClick={handleNextChar}
+                    aria-label="Next Character"
+                    className="as-slide-arrow absolute -right-3 sm:-right-6 z-30 size-11 sm:size-14"
+                  >
+                    <ChevronRight className="size-6 sm:size-7" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Column: Character Combat HUD, Stats & Lore */}
+              <div className="flex flex-col lg:col-span-7 xl:col-span-7">
+                {/* Class Badge & Name */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border text-xs font-black uppercase tracking-wider ${activeChar.badgeColor} backdrop-blur-sm`}>
+                    <Sparkles className="size-3.5" />
+                    <span>{activeChar.role}</span>
+                  </span>
+                  <span className="text-xs font-bold text-game-muted uppercase tracking-widest">
+                    Avatar Star Combat Division
+                  </span>
+                </div>
+
+                {/* 3D Metallic Class Title Graphic replacing plain text heading */}
+                <div className="relative mt-2 mb-1 flex items-center">
+                  <h3 className="sr-only">{activeChar.name}</h3>
+                  <Image
+                    key={activeChar.id}
+                    src={activeChar.titleImage}
+                    alt={activeChar.name}
+                    width={480}
+                    height={160}
+                    priority
+                    className="h-14 sm:h-18 md:h-20 lg:h-24 w-auto max-w-[90vw] object-contain drop-shadow-[0_10px_26px_rgba(0,0,0,0.85)] filter transition-all duration-300 hover:scale-105"
+                  />
+                </div>
+
+                <p className="mt-2 text-base font-bold italic text-sky-200/90 sm:text-lg">
+                  "{activeChar.line}"
+                </p>
+
+                {/* Lore / Playstyle Box */}
+                <div className="mt-5 rounded-2xl border border-game-border/80 bg-game/60 p-4 sm:p-5 backdrop-blur-sm">
+                  <p className="text-sm leading-relaxed text-sky-100/90">
+                    {activeChar.desc}
+                  </p>
+                  <div className="mt-3 flex items-center gap-2 pt-3 border-t border-game-border/50 text-xs font-bold text-sky-300">
+                    <span className="text-highlight">⚡ Playstyle:</span>
+                    <span>{activeChar.playstyle}</span>
                   </div>
                 </div>
-              </article>
-            ))}
+
+                {/* Combat Stats Bars */}
+                <div className="mt-6 space-y-3">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-game-muted">
+                    Combat Performance Rating
+                  </h4>
+                  {activeChar.stats.map((stat) => (
+                    <div key={stat.label} className="grid grid-cols-[90px_1fr_45px] sm:grid-cols-[100px_1fr_45px] items-center gap-3">
+                      <span className="text-xs font-black uppercase text-white tracking-wide">
+                        {stat.label}
+                      </span>
+                      <div className="h-3 w-full rounded-full bg-black/60 p-0.5 border border-white/10 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-700 ease-out ${activeChar.barColor}`}
+                          style={{ width: stat.percent }}
+                        />
+                      </div>
+                      <span className="text-right font-display text-xs font-black text-sky-200">
+                        {stat.percent}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Signature Weaponry Chips */}
+                <div className="mt-6">
+                  <h4 className="text-xs font-black uppercase tracking-widest text-game-muted mb-2.5">
+                    Signature Loadout
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {activeChar.weapons.map((w) => (
+                      <span
+                        key={w}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-game-border bg-game-deep/80 px-3 py-1.5 text-xs font-extrabold text-white shadow-sm"
+                      >
+                        <Crosshair className="size-3.5 text-info" />
+                        <span>{w}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons & Slidebar Tracker */}
+                <div className="mt-8 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-game-border/60">
+                  <Link
+                    href="/download"
+                    className="as-dl-btn px-8 py-3 text-base shadow-[0_8px_24px_rgba(245,158,11,0.5)]"
+                  >
+                    <Download className="size-5 stroke-[2.8]" />
+                    <span>{lang === "th" ? "เลือกเล่นคลาสนี้" : "Play This Class"}</span>
+                  </Link>
+
+                  {/* Interactive Slidebar Tracker */}
+                  <div className="flex items-center gap-2">
+                    {characterClasses.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setActiveCharIndex(idx)}
+                        aria-label={`Jump to Character ${idx + 1}`}
+                        className={`h-2.5 rounded-full transition-all duration-300 ${
+                          activeCharIndex === idx
+                            ? "w-8 bg-info shadow-[0_0_10px_#10aef2]"
+                            : "w-2.5 bg-white/20 hover:bg-white/40"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. QUICK-PICK SLIDEBAR ROSTER THUMBNAILS */}
+          <div className="mt-6 flex items-center justify-center gap-3 sm:gap-4 overflow-x-auto py-2">
+            {characterClasses.map((char, index) => {
+              const isSelected = activeCharIndex === index;
+              return (
+                <button
+                  key={char.id}
+                  type="button"
+                  onClick={() => setActiveCharIndex(index)}
+                  className={`group relative flex flex-col items-center rounded-xl p-1 transition-all duration-300 ${
+                    isSelected
+                      ? "scale-105 border-2 border-info shadow-[0_0_20px_rgba(16,174,242,0.5)] bg-game-deep"
+                      : "opacity-60 hover:opacity-100 hover:scale-100 border border-game-border/50 bg-game-deep/50"
+                  }`}
+                >
+                  <div className="relative w-16 sm:w-20 md:w-24 aspect-[4/5] overflow-hidden rounded-lg">
+                    <Image
+                      src={char.image}
+                      alt={char.name}
+                      fill
+                      sizes="100px"
+                      className="object-cover object-top"
+                    />
+                  </div>
+                  <span className={`mt-1.5 text-[10px] sm:text-xs font-black uppercase tracking-wider ${isSelected ? "text-white" : "text-game-muted"}`}>
+                    {char.name}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* COMMUNITY HERO BANNER */}
-      <section id="community" className="relative min-h-[420px] overflow-hidden sm:aspect-[3/1] sm:min-h-0">
-        <Image
-          src="/images/backgrounds/footer-img.png"
-          alt="The bright floating islands and sea of Avatar Star"
-          fill
-          sizes="100vw"
-          className="hidden object-cover sm:block"
-        />
-        <Image
-          src="/images/backgrounds/footer-mobile.png"
-          alt="The bright floating islands and sea of Avatar Star"
-          fill
-          sizes="100vw"
-          className="object-cover sm:hidden"
-        />
-        <div className="footer-scene-shade absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex items-center justify-center px-6 text-center">
-          <div>
-            <p className="font-display text-4xl uppercase text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] sm:text-6xl">
-              {t.community.title}
-            </p>
-            <p className="mt-2 text-sm font-bold uppercase tracking-widest text-highlight drop-shadow-md">
-              {t.community.subtitle}
-            </p>
-            <Link href="#play" className="game-button-3d-yellow mx-auto mt-6 w-fit">
-              {t.community.join} <ChevronRight className="size-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* HALL OF FAME LEADERBOARD */}
+      <HallOfFame />
 
       {/* FOOTER */}
       <AvatarStarFooter />
