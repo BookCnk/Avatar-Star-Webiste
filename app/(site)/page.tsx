@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -41,6 +41,7 @@ export default function HomePage() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [activeCharIndex, setActiveCharIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [isCharHovered, setIsCharHovered] = useState(false);
 
   const characterClasses = [
     {
@@ -54,6 +55,8 @@ export default function HomePage() {
       titleImage: "/images/characters/title-assassin.png",
       tone: "character-card-assassin",
       tabActive: "as-char-tab-active-assassin",
+      themeHex: "#a855f7",
+      glowColor: "rgba(168, 85, 247, 0.55)",
       accentGradient: "from-purple-900/40 via-fuchsia-950/20 to-transparent",
       accentBorder: "border-purple-500/70 shadow-[0_0_35px_rgba(168,85,247,0.35)]",
       badgeColor: "bg-purple-950/90 border-purple-500/60 text-purple-200",
@@ -76,6 +79,8 @@ export default function HomePage() {
       titleImage: "/images/characters/title-gunner.png",
       tone: "character-card-gunner",
       tabActive: "as-char-tab-active-gunner",
+      themeHex: "#f59e0b",
+      glowColor: "rgba(245, 158, 11, 0.55)",
       accentGradient: "from-amber-900/40 via-orange-950/20 to-transparent",
       accentBorder: "border-amber-500/70 shadow-[0_0_35px_rgba(245,158,11,0.35)]",
       badgeColor: "bg-amber-950/90 border-amber-500/60 text-amber-200",
@@ -98,6 +103,8 @@ export default function HomePage() {
       titleImage: "/images/characters/title-biochemist.png",
       tone: "character-card-biochemist",
       tabActive: "as-char-tab-active-biochemist",
+      themeHex: "#f43f5e",
+      glowColor: "rgba(244, 63, 94, 0.55)",
       accentGradient: "from-rose-900/40 via-red-950/20 to-transparent",
       accentBorder: "border-rose-500/70 shadow-[0_0_35px_rgba(244,63,94,0.35)]",
       badgeColor: "bg-rose-950/90 border-rose-500/60 text-rose-200",
@@ -120,6 +127,8 @@ export default function HomePage() {
       titleImage: "/images/characters/title-guardian.png",
       tone: "character-card-guardian",
       tabActive: "as-char-tab-active-guardian",
+      themeHex: "#38bdf8",
+      glowColor: "rgba(56, 189, 248, 0.55)",
       accentGradient: "from-sky-900/40 via-cyan-950/20 to-transparent",
       accentBorder: "border-sky-500/70 shadow-[0_0_35px_rgba(14,165,233,0.35)]",
       badgeColor: "bg-sky-950/90 border-sky-500/60 text-sky-200",
@@ -142,6 +151,15 @@ export default function HomePage() {
   const handlePrevChar = () => {
     setActiveCharIndex((prev) => (prev - 1 + characterClasses.length) % characterClasses.length);
   };
+
+  // Smooth ambient auto-play slider that pauses on interaction
+  useEffect(() => {
+    if (isCharHovered) return;
+    const timer = setInterval(() => {
+      setActiveCharIndex((prev) => (prev + 1) % characterClasses.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isCharHovered, characterClasses.length]);
 
   const navigationItems = [
     { key: "home", label: t.nav.home, href: "#game" },
@@ -583,7 +601,7 @@ export default function HomePage() {
                   key={char.id}
                   type="button"
                   onClick={() => setActiveCharIndex(index)}
-                  className={`as-char-tab ${isActive ? `${char.tabActive} active` : ""}`}
+                  className={`as-char-tab ${isActive ? `${char.tabActive} animate-tab-glow` : "opacity-80 hover:opacity-100"}`}
                   aria-label={char.name}
                   aria-selected={isActive}
                 >
@@ -606,9 +624,20 @@ export default function HomePage() {
           </div>
 
           {/* 2. MAIN CHARACTER SHOWCASE SLIDER */}
-          <div className="relative mt-4 sm:mt-6 rounded-3xl border border-game-border/80 bg-game-deep/70 p-4 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-md" data-motion="fade-up">
+          <div
+            onMouseEnter={() => setIsCharHovered(true)}
+            onMouseLeave={() => setIsCharHovered(false)}
+            className="relative mt-4 sm:mt-6 rounded-3xl border border-game-border/80 bg-game-deep/70 p-4 sm:p-8 lg:p-10 shadow-2xl backdrop-blur-md overflow-hidden"
+            data-motion="fade-up"
+          >
             {/* Ambient Backlight for Active Class */}
-            <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${activeChar.accentGradient} pointer-events-none transition-colors duration-500`} />
+            <div
+              key={`bg-${activeChar.id}`}
+              className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${activeChar.accentGradient} pointer-events-none transition-all duration-700 opacity-90`}
+            />
+
+            {/* Cyber Grid Texture Overlay */}
+            <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
             <div className="relative z-10 grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
               {/* Left Column: Interactive Poster Slide with Next/Prev Arrow Controls */}
@@ -619,27 +648,56 @@ export default function HomePage() {
                     type="button"
                     onClick={handlePrevChar}
                     aria-label="Previous Character"
-                    className="as-slide-arrow absolute -left-3 sm:-left-6 z-30 size-11 sm:size-14"
+                    className="as-slide-arrow absolute -left-3 sm:-left-6 z-30 size-11 sm:size-14 animate-nudge-prev hover:!translate-x-0 hover:scale-110 active:scale-95 transition-transform"
                   >
                     <ChevronLeft className="size-6 sm:size-7" />
                   </button>
 
-                  {/* Character Poster Card */}
-                  <div className={`relative w-full aspect-[4/5] overflow-hidden rounded-2xl border-2 ${activeChar.accentBorder} bg-black/40 transition-all duration-500`}>
-                    <Image
+                  {/* Character Poster Card with Hologram Stage */}
+                  <div
+                    className={`relative w-full aspect-[4/5] overflow-hidden rounded-2xl border-2 ${activeChar.accentBorder} bg-black/50 transition-all duration-500 shadow-[0_16px_40px_rgba(0,0,0,0.8)]`}
+                  >
+                    {/* Hologram Pedestal Base Rings & Glow */}
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-64 h-16 rounded-full bg-info/20 blur-xl pointer-events-none animate-holo-pulse" />
+                    <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 w-72 h-20 rounded-full border-[1.5px] border-dashed border-white/30 pointer-events-none animate-holo-spin" />
+                    <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 w-56 h-14 rounded-full border border-white/45 pointer-events-none animate-holo-spin-reverse" />
+
+                    {/* Ambient Energy Sparks */}
+                    <div className="absolute bottom-10 left-1/3 size-1.5 rounded-full bg-sky-300/80 blur-[1px] pointer-events-none animate-spark-1" />
+                    <div className="absolute bottom-8 right-1/3 size-2 rounded-full bg-amber-300/80 blur-[1px] pointer-events-none animate-spark-2" />
+
+                    {/* Hologram Scanline Effect */}
+                    <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-white/80 to-transparent shadow-[0_0_16px_rgba(255,255,255,0.9)] pointer-events-none z-15 animate-scanline" />
+
+                    {/* 3D Character Art with Summon Entrance and Idle Floating */}
+                    <div
                       key={activeChar.id}
-                      src={activeChar.image}
-                      alt={`${activeChar.name} - ${activeChar.role}`}
-                      fill
-                      priority
-                      sizes="(min-width: 1024px) 400px, 90vw"
-                      className="object-cover object-center transition-transform duration-700 hover:scale-105"
-                    />
+                      className="relative h-full w-full animate-char-summon will-change-[transform,opacity]"
+                    >
+                      <div className="relative h-full w-full animate-char-idle will-change-transform">
+                        <Image
+                          src={activeChar.image}
+                          alt={`${activeChar.name} - ${activeChar.role}`}
+                          fill
+                          priority
+                          sizes="(min-width: 1024px) 400px, 90vw"
+                          className="object-cover object-center transition-transform duration-700 hover:scale-105"
+                        />
+                      </div>
+                    </div>
 
                     {/* Class Index Watermark badge */}
                     <div className="absolute top-4 left-4 z-20">
-                      <span className="font-display text-xs sm:text-sm tracking-wider uppercase px-3 py-1 rounded-full bg-black/70 border border-white/20 text-white backdrop-blur-md">
+                      <span className="font-display text-xs sm:text-sm tracking-wider uppercase px-3 py-1 rounded-full bg-black/75 border border-white/20 text-white backdrop-blur-md shadow-md">
                         CLASS 0{activeCharIndex + 1} / 04
+                      </span>
+                    </div>
+
+                    {/* Combat Role Tag Bottom-Left */}
+                    <div className="absolute bottom-4 left-4 z-20">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-black uppercase tracking-wider ${activeChar.badgeColor} backdrop-blur-md shadow-lg border`}>
+                        <Sparkles className="size-3" />
+                        <span>{activeChar.role}</span>
                       </span>
                     </div>
                   </div>
@@ -649,7 +707,7 @@ export default function HomePage() {
                     type="button"
                     onClick={handleNextChar}
                     aria-label="Next Character"
-                    className="as-slide-arrow absolute -right-3 sm:-right-6 z-30 size-11 sm:size-14"
+                    className="as-slide-arrow absolute -right-3 sm:-right-6 z-30 size-11 sm:size-14 animate-nudge-next hover:!translate-x-0 hover:scale-110 active:scale-95 transition-transform"
                   >
                     <ChevronRight className="size-6 sm:size-7" />
                   </button>
@@ -658,9 +716,9 @@ export default function HomePage() {
 
               {/* Right Column: Character Combat HUD, Stats & Lore */}
               <div className="flex flex-col lg:col-span-7 xl:col-span-7">
-                {/* Class Badge & Name */}
+                {/* Class Badge & Division */}
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border text-xs font-black uppercase tracking-wider ${activeChar.badgeColor} backdrop-blur-sm`}>
+                  <span className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border text-xs font-black uppercase tracking-wider ${activeChar.badgeColor} backdrop-blur-sm animate-pulse`}>
                     <Sparkles className="size-3.5" />
                     <span>{activeChar.role}</span>
                   </span>
@@ -669,18 +727,19 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                {/* 3D Metallic Class Title Graphic replacing plain text heading */}
+                {/* 3D Metallic Class Title Graphic with Dynamic Pop-In */}
                 <div className="relative mt-2 mb-1 flex items-center">
                   <h3 className="sr-only">{activeChar.name}</h3>
-                  <Image
-                    key={activeChar.id}
-                    src={activeChar.titleImage}
-                    alt={activeChar.name}
-                    width={480}
-                    height={160}
-                    priority
-                    className="h-14 sm:h-18 md:h-20 lg:h-24 w-auto max-w-[90vw] object-contain drop-shadow-[0_10px_26px_rgba(0,0,0,0.85)] filter transition-all duration-300 hover:scale-105"
-                  />
+                  <div key={activeChar.id} className="animate-title-pop">
+                    <Image
+                      src={activeChar.titleImage}
+                      alt={activeChar.name}
+                      width={480}
+                      height={160}
+                      priority
+                      className="h-14 sm:h-18 md:h-20 lg:h-24 w-auto max-w-[90vw] object-contain drop-shadow-[0_10px_26px_rgba(0,0,0,0.85)] filter transition-all duration-300 hover:scale-105"
+                    />
+                  </div>
                 </div>
 
                 <p className="mt-2 text-base font-bold italic text-sky-200/90 sm:text-lg">
@@ -688,7 +747,7 @@ export default function HomePage() {
                 </p>
 
                 {/* Lore / Playstyle Box */}
-                <div className="mt-5 rounded-2xl border border-game-border/80 bg-game/60 p-4 sm:p-5 backdrop-blur-sm">
+                <div className="mt-5 rounded-2xl border border-game-border/80 bg-game/60 p-4 sm:p-5 backdrop-blur-sm shadow-inner transition-all hover:border-game-border">
                   <p className="text-sm leading-relaxed text-sky-100/90">
                     {activeChar.desc}
                   </p>
@@ -698,19 +757,24 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Combat Stats Bars */}
+                {/* Combat Stats Bars with Dynamic Width and Continuous Shimmer */}
                 <div className="mt-6 space-y-3">
-                  <h4 className="text-xs font-black uppercase tracking-widest text-game-muted">
-                    Combat Performance Rating
-                  </h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-black uppercase tracking-widest text-game-muted">
+                      Combat Performance Rating
+                    </h4>
+                    <span className="text-[11px] font-bold text-sky-300/70">
+                      LIVE COMBAT DATA
+                    </span>
+                  </div>
                   {activeChar.stats.map((stat) => (
                     <div key={stat.label} className="grid grid-cols-[90px_1fr_45px] sm:grid-cols-[100px_1fr_45px] items-center gap-3">
                       <span className="text-xs font-black uppercase text-white tracking-wide">
                         {stat.label}
                       </span>
-                      <div className="h-3 w-full rounded-full bg-black/60 p-0.5 border border-white/10 overflow-hidden">
+                      <div className="h-3 w-full rounded-full bg-black/60 p-0.5 border border-white/10 overflow-hidden shadow-inner">
                         <div
-                          className={`h-full rounded-full transition-all duration-700 ease-out ${activeChar.barColor}`}
+                          className={`relative overflow-hidden h-full rounded-full transition-[width] duration-700 ease-out as-stat-shimmer ${activeChar.barColor}`}
                           style={{ width: stat.percent }}
                         />
                       </div>
@@ -721,7 +785,7 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                {/* Signature Weaponry Chips */}
+                {/* Signature Weaponry Chips with Crosshair Hover Interaction (Pure Tailwind) */}
                 <div className="mt-6">
                   <h4 className="text-xs font-black uppercase tracking-widest text-game-muted mb-2.5">
                     Signature Loadout
@@ -730,9 +794,9 @@ export default function HomePage() {
                     {activeChar.weapons.map((w) => (
                       <span
                         key={w}
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-game-border bg-game-deep/80 px-3 py-1.5 text-xs font-extrabold text-white shadow-sm"
+                        className="group/weapon inline-flex items-center gap-1.5 rounded-lg border border-game-border bg-game-deep/80 px-3 py-1.5 text-xs font-extrabold text-white shadow-sm cursor-default transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:bg-game-surface hover:border-info/80 hover:shadow-[0_6px_16px_rgba(0,0,0,0.45),0_0_14px_rgba(16,174,242,0.4)]"
                       >
-                        <Crosshair className="size-3.5 text-info" />
+                        <Crosshair className="size-3.5 text-info transition-transform duration-300 group-hover/weapon:rotate-90 group-hover/weapon:scale-110 group-hover/weapon:text-white" />
                         <span>{w}</span>
                       </span>
                     ))}
@@ -743,7 +807,7 @@ export default function HomePage() {
                 <div className="mt-8 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-game-border/60">
                   <Link
                     href="/download"
-                    className="as-dl-btn px-8 py-3 text-base shadow-[0_8px_24px_rgba(245,158,11,0.5)]"
+                    className="as-dl-btn px-8 py-3 text-base shadow-[0_8px_24px_rgba(245,158,11,0.5)] transition-transform hover:scale-105 active:scale-95"
                   >
                     <Download className="size-5 stroke-[2.8]" />
                     <span>เลือกเล่นคลาสนี้</span>
@@ -759,7 +823,7 @@ export default function HomePage() {
                         aria-label={`Jump to Character ${idx + 1}`}
                         className={`h-2.5 rounded-full transition-all duration-300 ${
                           activeCharIndex === idx
-                            ? "w-8 bg-info shadow-[0_0_10px_#10aef2]"
+                            ? "w-8 bg-info shadow-[0_0_12px_#10aef2]"
                             : "w-2.5 bg-white/20 hover:bg-white/40"
                         }`}
                       />

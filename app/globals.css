@@ -40,6 +40,20 @@
   /* Breakpoint ตามอุปกรณ์ — mobile = ค่าเริ่มต้น ไม่ต้องมี prefix */
   --breakpoint-tablet: 768px; /* iPad แนวตั้งขึ้นไป */
   --breakpoint-desktop: 1024px; /* จอคอมขึ้นไป */
+
+  /* Character Showcase Animation Tokens */
+  --animate-char-summon: as-char-summon 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+  --animate-char-idle: as-char-idle-breathing 4.5s ease-in-out infinite;
+  --animate-holo-spin: as-holo-spin 22s linear infinite;
+  --animate-holo-spin-reverse: as-holo-spin-reverse 15s linear infinite;
+  --animate-holo-pulse: as-holo-pulse 3.8s ease-in-out infinite;
+  --animate-scanline: as-scanline-sweep 4.5s ease-in-out infinite;
+  --animate-title-pop: as-title-pop 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.25) both;
+  --animate-nudge-prev: as-nudge-prev 2.4s ease-in-out infinite;
+  --animate-nudge-next: as-nudge-next 2.4s ease-in-out infinite;
+  --animate-spark-1: as-energy-drift-1 3.5s ease-in-out infinite;
+  --animate-spark-2: as-energy-drift-2 4.2s ease-in-out 1.5s infinite;
+  --animate-tab-glow: as-tab-glow-pulse 2.8s ease-in-out infinite;
 }
 
 /* ระยะขอบ responsive กลาง — แก้เลขที่นี่ที่เดียว มีผลทุกหน้า
@@ -1735,6 +1749,164 @@ html {
 }
 .as-slide-arrow:active {
   transform: scale(0.95);
+}
+
+/* ============================================================
+   Character Showcase Keyframe Animations
+   (Bound to Tailwind utility classes via @theme --animate-*)
+   ============================================================ */
+
+/* 1. Character Summon / Entrance Animation */
+@keyframes as-char-summon {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.94);
+    filter: brightness(1.6);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.02);
+    filter: brightness(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* 2. Character Idle Breathing / Float Animation */
+@keyframes as-char-idle-breathing {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.012);
+  }
+}
+
+/* 3. Hologram Pedestal Rotating Rings & Pulse */
+@keyframes as-holo-spin {
+  from {
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, 0) rotate(360deg);
+  }
+}
+
+@keyframes as-holo-spin-reverse {
+  from {
+    transform: translate(-50%, 0) rotate(360deg);
+  }
+  to {
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+
+@keyframes as-holo-pulse {
+  0%, 100% {
+    opacity: 0.45;
+    transform: translate(-50%, 0) scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, 0) scale(1.06);
+  }
+}
+
+/* 4. Sci-Fi Scanline Hologram Sweep on Poster */
+@keyframes as-scanline-sweep {
+  0% {
+    top: -20%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    top: 120%;
+    opacity: 0;
+  }
+}
+
+/* 5. 3D Metallic Class Title Pop Animation */
+@keyframes as-title-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+    filter: brightness(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* 6. Combat Stat Bar Continuous Shimmer Sweep */
+@keyframes as-stat-shimmer-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.as-stat-shimmer::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 60%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  animation: as-stat-shimmer-sweep 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* 7. Active Tab Breathing Glow */
+@keyframes as-tab-glow-pulse {
+  0%, 100% {
+    transform: translateY(-2px) scale(1.04);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.06);
+  }
+}
+
+/* 8. Arrow Nudge Idle Guidance Animation */
+@keyframes as-nudge-prev {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-3px); }
+}
+
+@keyframes as-nudge-next {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+/* 9. Ambient Floating Energy Sparks */
+@keyframes as-energy-drift-1 {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  25% { opacity: 0.8; }
+  75% { opacity: 0.8; }
+  100% { transform: translateY(-70px) translateX(25px); opacity: 0; }
+}
+
+@keyframes as-energy-drift-2 {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  25% { opacity: 0.7; }
+  75% { opacity: 0.7; }
+  100% { transform: translateY(-80px) translateX(-20px); opacity: 0; }
 }
 
 /* ============================================================
